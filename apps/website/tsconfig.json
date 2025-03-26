@@ -4,21 +4,43 @@
     "incremental": true,
     "target": "ESNext",
     "jsx": "preserve",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "baseUrl": ".",
     "rootDir": ".",
     "module": "esnext",
     "moduleResolution": "bundler",
     "paths": {
-      "@/ui/*": ["./src/ui/*"],
-      "@/components/*": ["./src/ui/components/ui/*"],
-      "@/lib/*": ["./src/lib/*"],
-      "@/auth/*": ["./src/lib/auth/*"],
-      "@/query/*": ["./src/lib/query/*"],
-      "@/db/*": ["./src/lib/db/*"],
-      "@/hooks/*": ["./src/lib/hooks/*"],
-      "@/contexts/*": ["./src/lib/contexts/*"],
-      "@/validations/*": ["./src/generated/validations/*"]
+      "@/ui/*": [
+        "./src/ui/*"
+      ],
+      "@/components/*": [
+        "./src/ui/components/ui/*"
+      ],
+      "@/lib/*": [
+        "./src/lib/*"
+      ],
+      "@/auth/*": [
+        "./src/lib/auth/*"
+      ],
+      "@/query/*": [
+        "./src/lib/query/*"
+      ],
+      "@/db/*": [
+        "./src/lib/db/*"
+      ],
+      "@/hooks/*": [
+        "./src/lib/hooks/*"
+      ],
+      "@/contexts/*": [
+        "./src/lib/contexts/*"
+      ],
+      "@/validations/*": [
+        "./src/generated/validations/*"
+      ]
     },
     "resolveJsonModule": true,
     "types": [
@@ -38,6 +60,17 @@
       }
     ]
   },
-  "include": ["**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "next-env.d.ts"],
-  "exclude": ["node_modules", "jest.config.ts", "**/*.spec.ts", "**/*.test.ts"]
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "next-env.d.ts",
+    "../../dist/apps/website/.next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "jest.config.ts",
+    "**/*.spec.ts",
+    "**/*.test.ts"
+  ]
 }
