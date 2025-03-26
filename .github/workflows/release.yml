@@ -109,6 +109,9 @@ jobs:
       - name: Run workspace build
         run: pnpm build
         shell: bash
+        env:
+          BETTER_AUTH_SECRET: ${{ secrets.BETTER_AUTH_SECRET }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
       # - name: Release repository updates
       #   if: ${{ success() }}
