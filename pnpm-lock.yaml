@@ -352,11 +352,6 @@ catalogs:
       specifier: ^8.3.2
       version: 8.4.1
 
-patchedDependencies:
-  '@nx/next@20.6.4':
-    hash: 071e72be35b3a18e4da8476b7a214e0e773ad88e8e69ef42e416d815059730d1
-    path: patches/@nx__next@20.6.4.patch
-
 importers:
 
   .:
@@ -381,7 +376,7 @@ importers:
         version: 20.6.4(@babel/traverse@7.26.10)(@swc-node/register@1.10.10(@swc/core@1.11.12(@swc/helpers@0.5.15))(@swc/types@0.1.19)(typescript@5.8.2))(@swc/core@1.11.12(@swc/helpers@0.5.15))(nx@20.6.4(@swc-node/register@1.10.10(@swc/core@1.11.12(@swc/helpers@0.5.15))(@swc/types@0.1.19)(typescript@5.8.2))(@swc/core@1.11.12(@swc/helpers@0.5.15)))(verdaccio@5.33.0(encoding@0.1.13)(typanion@3.14.0))
       '@nx/next':
         specifier: 'catalog:'
-        version: 20.6.4(patch_hash=071e72be35b3a18e4da8476b7a214e0e773ad88e8e69ef42e416d815059730d1)(@babel/core@7.26.10)(@babel/traverse@7.26.10)(@rspack/core@1.2.8(@swc/helpers@0.5.15))(@swc-node/register@1.10.10(@swc/core@1.11.12(@swc/helpers@0.5.15))(@swc/types@0.1.19)(typescript@5.8.2))(@swc/core@1.11.12(@swc/helpers@0.5.15))(@zkochan/js-yaml@0.0.7)(bufferutil@4.0.9)(esbuild@0.25.1)(eslint@9.23.0(jiti@2.4.2))(next@15.3.0-canary.12(@babel/core@7.26.10)(@opentelemetry/api@1.4.1)(babel-plugin-macros@3.1.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.86.0))(nx@20.6.4(@swc-node/register@1.10.10(@swc/core@1.11.12(@swc/helpers@0.5.15))(@swc/types@0.1.19)(typescript@5.8.2))(@swc/core@1.11.12(@swc/helpers@0.5.15)))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.8.2)(utf-8-validate@5.0.10)(verdaccio@5.33.0(encoding@0.1.13)(typanion@3.14.0))(webpack@5.98.0(@swc/core@1.11.12(@swc/helpers@0.5.15))(esbuild@0.25.1))
+        version: 20.6.4(@babel/core@7.26.10)(@babel/traverse@7.26.10)(@rspack/core@1.2.8(@swc/helpers@0.5.15))(@swc-node/register@1.10.10(@swc/core@1.11.12(@swc/helpers@0.5.15))(@swc/types@0.1.19)(typescript@5.8.2))(@swc/core@1.11.12(@swc/helpers@0.5.15))(@zkochan/js-yaml@0.0.7)(bufferutil@4.0.9)(esbuild@0.25.1)(eslint@9.23.0(jiti@2.4.2))(next@15.3.0-canary.12(@babel/core@7.26.10)(@opentelemetry/api@1.4.1)(babel-plugin-macros@3.1.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.86.0))(nx@20.6.4(@swc-node/register@1.10.10(@swc/core@1.11.12(@swc/helpers@0.5.15))(@swc/types@0.1.19)(typescript@5.8.2))(@swc/core@1.11.12(@swc/helpers@0.5.15)))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.8.2)(utf-8-validate@5.0.10)(verdaccio@5.33.0(encoding@0.1.13)(typanion@3.14.0))(webpack@5.98.0(@swc/core@1.11.12(@swc/helpers@0.5.15))(esbuild@0.25.1))
       '@nx/plugin':
         specifier: 'catalog:'
         version: 20.6.4(@babel/traverse@7.26.10)(@swc-node/register@1.10.10(@swc/core@1.11.12(@swc/helpers@0.5.15))(@swc/types@0.1.19)(typescript@5.8.2))(@swc/core@1.11.12(@swc/helpers@0.5.15))(@types/node@22.13.11)(@zkochan/js-yaml@0.0.7)(babel-plugin-macros@3.1.0)(eslint@9.23.0(jiti@2.4.2))(nx@20.6.4(@swc-node/register@1.10.10(@swc/core@1.11.12(@swc/helpers@0.5.15))(@swc/types@0.1.19)(typescript@5.8.2))(@swc/core@1.11.12(@swc/helpers@0.5.15)))(ts-node@10.9.2(@swc/core@1.11.12(@swc/helpers@0.5.15))(@types/node@22.13.11)(typescript@5.8.2))(typescript@5.8.2)(verdaccio@5.33.0(encoding@0.1.13)(typanion@3.14.0))
@@ -16506,7 +16501,7 @@ snapshots:
       - vue-tsc
       - webpack-cli
 
-  '@nx/next@20.6.4(patch_hash=071e72be35b3a18e4da8476b7a214e0e773ad88e8e69ef42e416d815059730d1)(@babel/core@7.26.10)(@babel/traverse@7.26.10)(@rspack/core@1.2.8(@swc/helpers@0.5.15))(@swc-node/register@1.10.10(@swc/core@1.11.12(@swc/helpers@0.5.15))(@swc/types@0.1.19)(typescript@5.8.2))(@swc/core@1.11.12(@swc/helpers@0.5.15))(@zkochan/js-yaml@0.0.7)(bufferutil@4.0.9)(esbuild@0.25.1)(eslint@9.23.0(jiti@2.4.2))(next@15.3.0-canary.12(@babel/core@7.26.10)(@opentelemetry/api@1.4.1)(babel-plugin-macros@3.1.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.86.0))(nx@20.6.4(@swc-node/register@1.10.10(@swc/core@1.11.12(@swc/helpers@0.5.15))(@swc/types@0.1.19)(typescript@5.8.2))(@swc/core@1.11.12(@swc/helpers@0.5.15)))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.8.2)(utf-8-validate@5.0.10)(verdaccio@5.33.0(encoding@0.1.13)(typanion@3.14.0))(webpack@5.98.0(@swc/core@1.11.12(@swc/helpers@0.5.15))(esbuild@0.25.1))':
+  '@nx/next@20.6.4(@babel/core@7.26.10)(@babel/traverse@7.26.10)(@rspack/core@1.2.8(@swc/helpers@0.5.15))(@swc-node/register@1.10.10(@swc/core@1.11.12(@swc/helpers@0.5.15))(@swc/types@0.1.19)(typescript@5.8.2))(@swc/core@1.11.12(@swc/helpers@0.5.15))(@zkochan/js-yaml@0.0.7)(bufferutil@4.0.9)(esbuild@0.25.1)(eslint@9.23.0(jiti@2.4.2))(next@15.3.0-canary.12(@babel/core@7.26.10)(@opentelemetry/api@1.4.1)(babel-plugin-macros@3.1.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.86.0))(nx@20.6.4(@swc-node/register@1.10.10(@swc/core@1.11.12(@swc/helpers@0.5.15))(@swc/types@0.1.19)(typescript@5.8.2))(@swc/core@1.11.12(@swc/helpers@0.5.15)))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.8.2)(utf-8-validate@5.0.10)(verdaccio@5.33.0(encoding@0.1.13)(typanion@3.14.0))(webpack@5.98.0(@swc/core@1.11.12(@swc/helpers@0.5.15))(esbuild@0.25.1))':
     dependencies:
       '@babel/plugin-proposal-decorators': 7.25.9(@babel/core@7.26.10)
       '@nx/devkit': 20.6.4(nx@20.6.4(@swc-node/register@1.10.10(@swc/core@1.11.12(@swc/helpers@0.5.15))(@swc/types@0.1.19)(typescript@5.8.2))(@swc/core@1.11.12(@swc/helpers@0.5.15)))
