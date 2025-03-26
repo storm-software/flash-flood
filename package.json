@@ -6,10 +6,10 @@
   "repository": "storm-software/pump-dot-dump.git",
   "license": "Apache-2.0",
   "private": true,
-  "packageManager": "pnpm@9.15.5",
+  "packageManager": "pnpm@10.3.0",
   "engines": {
     "node": ">=22.13.1",
-    "pnpm": ">=9.15.5"
+    "pnpm": ">=10.3.0"
   },
   "scripts": {
     "bootstrap": "pnpm exec zx tools/scripts/src/bootstrap.mjs",
