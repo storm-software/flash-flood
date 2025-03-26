@@ -6,6 +6,6 @@
     "types": ["node"],
     "lib": ["esnext", "dom"]
   },
-  "include": ["**/*.ts", "*.mjs"],
+  "include": ["**/*.ts", "*.mjs", "src/setup.mjs"],
   "exclude": ["jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"]
 }

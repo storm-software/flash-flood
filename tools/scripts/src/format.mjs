@@ -1,40 +1,64 @@
-/*-------------------------------------------------------------------
+#!/usr/bin/env zx
+/* -------------------------------------------------------------------
 
-            ⚡ Storm Software - Monorepo Template
+                ⚡ Storm Software - Pump Dot Dump
 
- This code was released as part of the Monorepo Template project. Monorepo Template
+ This code was released as part of the Pump Dot Dump project. Pump Dot Dump
  is maintained by Storm Software under the Apache-2.0 License, and is
  free for commercial and private use. For more information, please visit
  our licensing page.
 
  Website:         https://stormsoftware.com
- Repository:      https://github.com/storm-software/monorepo-template
- Documentation:   https://stormsoftware.com/projects/monorepo-template/docs
+ Repository:      https://github.com/storm-software/pump-dot-dump
+ Documentation:   https://stormsoftware.com/projects/pump-dot-dump/docs
  Contact:         https://stormsoftware.com/contact
- License:         https://stormsoftware.com/projects/monorepo-template/license
+ License:         https://stormsoftware.com/projects/pump-dot-dump/license
 
- -------------------------------------------------------------------*/
+ ------------------------------------------------------------------- */
 
-import { $, argv, chalk, echo, usePwsh } from "zx";
+import { $, argv, chalk, echo } from "zx";
 
-usePwsh();
+// usePwsh();
 
 try {
+  await echo`${chalk.whiteBright("🎨  Formatting the monorepo...")}`;
+
   let files = "";
   if (argv._ && argv._.length > 0) {
     files = `--files ${argv._.join(" ")}`;
   }
 
-  await $`pnpm nx run-many --target=lint,format --all --exclude="@monorepo-template/monorepo" --parallel=5`.timeout(
-    `${30 * 60}s`
-  );
-  await $`pnpm nx format:write ${files} --sort-root-tsconfig-paths --all`.timeout(
-    `${30 * 60}s`
-  );
+  let proc =
+    $`pnpm nx run-many --target=lint,format --all --exclude="@pump-dot-dump/monorepo" --parallel=5`.timeout(
+      `${30 * 60}s`
+    );
+  proc.stdout.on("data", data => {
+    echo`${data}`;
+  });
+  let result = await proc;
+  if (!result.ok) {
+    throw new Error(
+      `An error occured while formatting the monorepo: \n\n${result.message}\n`
+    );
+  }
+
+  proc =
+    $`pnpm nx format:write ${files} --sort-root-tsconfig-paths --all`.timeout(
+      `${30 * 60}s`
+    );
+  proc.stdout.on("data", data => {
+    echo`${data}`;
+  });
+  result = await proc;
+  if (!result.ok) {
+    throw new Error(
+      `An error occured while running \`nx format:write\` on the monorepo: \n\n${result.message}\n`
+    );
+  }
 
   echo`${chalk.green("Successfully formatted the monorepo's files")}`;
 } catch (error) {
-  echo`${chalk.red(`A failure occurred while formatting the monorepo:
-${error?.message ? error.message : "No message could be found"}
-`)}`;
+  echo`${chalk.red(error?.message ? error.message : "A failure occured while formatting the monorepo")}`;
+
+  process.exit(1);
 }

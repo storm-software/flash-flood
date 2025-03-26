@@ -11,6 +11,8 @@ out
 .nx
 
 # build
+apps/website/.next
+apps/website/.nx-config
 
 # dependencies
 node_modules
@@ -417,6 +419,7 @@ MigrationBackup/
 
 # Local Environment Variables
 **/.env.local
+**/.local.env
 
 # Local stoplight config
 **/.stoplight.json

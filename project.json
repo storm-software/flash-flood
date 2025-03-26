@@ -1,5 +1,5 @@
 {
-  "name": "@monorepo-template/monorepo",
+  "name": "@pump-dot-dump/monorepo",
   "$schema": "node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "targets": {

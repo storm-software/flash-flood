@@ -1,27 +1,33 @@
-/*-------------------------------------------------------------------
+#!/usr/bin/env zx
+/* -------------------------------------------------------------------
 
-            ⚡ Storm Software - Monorepo Template
+                ⚡ Storm Software - Pump Dot Dump
 
- This code was released as part of the Monorepo Template project. Monorepo Template
+ This code was released as part of the Pump Dot Dump project. Pump Dot Dump
  is maintained by Storm Software under the Apache-2.0 License, and is
  free for commercial and private use. For more information, please visit
  our licensing page.
 
  Website:         https://stormsoftware.com
- Repository:      https://github.com/storm-software/monorepo-template
- Documentation:   https://stormsoftware.com/projects/monorepo-template/docs
+ Repository:      https://github.com/storm-software/pump-dot-dump
+ Documentation:   https://stormsoftware.com/projects/pump-dot-dump/docs
  Contact:         https://stormsoftware.com/contact
- License:         https://stormsoftware.com/projects/monorepo-template/license
+ License:         https://stormsoftware.com/projects/pump-dot-dump/license
 
- -------------------------------------------------------------------*/
+ ------------------------------------------------------------------- */
 
-import { chalk, echo, usePwsh } from "zx";
+import { chalk, echo } from "zx";
 
-usePwsh();
+// usePwsh();
 
 try {
+  await echo`${chalk.whiteBright("⚙️  Bootstrapping the monorepo...")}`;
+
   //   await build({
-  //     entryPoints: ["tools/nx/src/plugins/package-build.ts"],
+  //     entryPoints: [
+  //       "tools/nx/src/plugins/plugin.ts",
+  //       "tools/nx/src/plugins/adapter.ts"
+  //     ],
   //     target: "node22",
   //     outdir: "dist/plugins",
   //     tsconfig: "tools/nx/tsconfig.json",
@@ -35,9 +41,20 @@ try {
   //     preserveSymlinks: true
   //   });
 
+  // const proc = $`pnpm nx reset`.timeout(`${5 * 60}s`);
+  // proc.stdout.on("data", data => {
+  //   echo`${data}`;
+  // });
+  // const result = await proc;
+  // if (!result.ok) {
+  //   throw new Error(
+  //     `An error occured while resetting the Nx deamon process: \n\n${result.message}\n`
+  //   );
+  // }
+
   echo`${chalk.green("Completed monorepo bootstrapping successfully!")}`;
 } catch (error) {
-  echo`${chalk.red(`A failure occurred while building the monorepo:
-${error?.message ? error.message : "No message could be found"}
-`)}`;
+  echo`${chalk.red(error?.message ? error.message : "A failure occured while bootstrapping the monorepo")}`;
+
+  process.exit(1);
 }
