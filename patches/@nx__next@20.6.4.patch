@@ -1,0 +1,13 @@
+diff --git a/src/executors/build/build.impl.js b/src/executors/build/build.impl.js
+index 9feaae34c1e988bbdeed1cecb25fb220fedff81a..d6b5c3c9ab302ac0b578b00a920e3760ccfc3348 100644
+--- a/src/executors/build/build.impl.js
++++ b/src/executors/build/build.impl.js
+@@ -19,7 +19,7 @@ async function buildExecutor(options, context) {
+     // Cast to any to overwrite NODE_ENV
+     process.env.NODE_ENV ||= 'production';
+     const projectRoot = context.projectGraph.nodes[context.projectName].data.root;
+-    (0, check_project_1.checkPublicDirectory)(projectRoot);
++    (0, check_project_1.checkPublicDirectory)((0, path_1.join)(context.root, projectRoot));
+     // Set `__NEXT_REACT_ROOT` based on installed ReactDOM version
+     const packageJsonPath = (0, path_1.join)(projectRoot, 'package.json');
+     const packageJson = (0, node_fs_1.existsSync)(packageJsonPath)
