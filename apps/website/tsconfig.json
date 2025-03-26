@@ -1,0 +1,43 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "incremental": true,
+    "target": "ESNext",
+    "jsx": "preserve",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "baseUrl": ".",
+    "rootDir": ".",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "paths": {
+      "@/ui/*": ["./src/ui/*"],
+      "@/components/*": ["./src/ui/components/ui/*"],
+      "@/lib/*": ["./src/lib/*"],
+      "@/auth/*": ["./src/lib/auth/*"],
+      "@/query/*": ["./src/lib/query/*"],
+      "@/db/*": ["./src/lib/db/*"],
+      "@/hooks/*": ["./src/lib/hooks/*"],
+      "@/contexts/*": ["./src/lib/contexts/*"],
+      "@/validations/*": ["./src/generated/validations/*"]
+    },
+    "resolveJsonModule": true,
+    "types": [
+      "node",
+      "@nx/react/typings/cssmodule.d.ts",
+      "@nx/react/typings/image.d.ts"
+    ],
+    "allowJs": true,
+    "strict": false,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "skipLibCheck": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
+  },
+  "include": ["**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "next-env.d.ts"],
+  "exclude": ["node_modules", "jest.config.ts", "**/*.spec.ts", "**/*.test.ts"]
+}

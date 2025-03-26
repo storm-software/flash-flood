@@ -1,0 +1,122 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+generator zod {
+    provider          = "prisma-zod-generator"
+    output            = "../src/generated/validations"
+    isGenerateSelect  = true
+    isGenerateInclude = true
+}
+
+model User {
+    id              String        @id
+    name            String
+    email           String        @unique
+    emailVerified   Boolean       @default(false)
+    image           String?
+    createdAt       DateTime      @default(now())
+    updatedAt       DateTime      @updatedAt
+    username        String        @unique
+    displayUsername String
+    role            String?
+    banned          Boolean?      @default(false)
+    banReason       String?
+    banExpires      DateTime?
+    sessions        Session[]
+    accounts        Account[]
+    walletGroups    WalletGroup[]
+    Wallet          Wallet[]
+
+    @@map("user")
+}
+
+model Session {
+    id             String   @id
+    expiresAt      DateTime
+    token          String   @unique
+    createdAt      DateTime @default(now())
+    updatedAt      DateTime @updatedAt
+    ipAddress      String?
+    userAgent      String?
+    userId         String
+    user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    impersonatedBy String?
+
+    @@map("session")
+}
+
+model Account {
+    id                    String    @id
+    accountId             String
+    providerId            String
+    userId                String
+    user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+    accessToken           String?
+    refreshToken          String?
+    idToken               String?
+    accessTokenExpiresAt  DateTime?
+    refreshTokenExpiresAt DateTime?
+    scope                 String?
+    password              String?
+    createdAt             DateTime  @default(now())
+    updatedAt             DateTime  @updatedAt
+
+    @@unique([accountId, providerId])
+    @@map("account")
+}
+
+model Verification {
+    id         String    @id
+    identifier String
+    value      String
+    expiresAt  DateTime
+    createdAt  DateTime? @default(now())
+    updatedAt  DateTime? @updatedAt
+
+    @@map("verification")
+}
+
+enum WalletType {
+    ethereum
+    solana
+}
+
+model WalletGroup {
+    id          String     @id
+    name        String
+    description String?
+    type        WalletType
+    userId      String
+    user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+    wallets     Wallet[]
+    createdAt   DateTime   @default(now())
+    updatedAt   DateTime   @updatedAt
+    deletedAt   DateTime?
+
+    @@unique([name, userId])
+    @@map("walletGroup")
+}
+
+model Wallet {
+    id          String      @id
+    groupId     String
+    group       WalletGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
+    description String?
+    userId      String
+    user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+    mnemonic    String?
+    address     String?
+    publicKey   String      @unique
+    privateKey  String      @unique
+    createdAt   DateTime    @default(now())
+    updatedAt   DateTime    @updatedAt
+    deletedAt   DateTime?
+
+    @@map("wallet")
+}
