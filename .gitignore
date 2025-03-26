@@ -65,6 +65,7 @@ tools/**/*.properties
 **/__generated__/**
 
 .next
+.open-next
 .stoplight
 
 .cspellcache
