@@ -60,7 +60,7 @@ const nextConfig = {
           {
             key: "Content-Security-Policy",
             value: `
-default-src 'self';
+default-src 'self' pump-dot-dump-website.vercel.app;
 script-src 'self' 'unsafe-eval' 'unsafe-inline';
 style-src 'self' 'unsafe-inline';
 img-src 'self' blob: data:;
