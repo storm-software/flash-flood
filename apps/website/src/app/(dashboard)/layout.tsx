@@ -1,6 +1,6 @@
 /* -------------------------------------------------------------------
 
-                 ⚡ Storm Software - Pump Dot Dump
+                ⚡ Storm Software - Pump Dot Dump
 
  This code was released as part of the Pump Dot Dump project. Pump Dot Dump
  is maintained by Storm Software under the Apache-2.0 License, and is
@@ -35,8 +35,8 @@ export default async function Layout({
 
   return (
     <main className="flex min-h-screen flex-col items-center">
-      <div className="container mx-auto flex w-full flex-col items-center justify-center gap-1 pt-14 text-center">
-        <div className="flex w-full flex-row justify-between gap-6 px-6">
+      <div className="container mx-auto flex w-full flex-col items-center justify-center gap-1.5 pt-14 text-center">
+        <div className="flex w-full flex-row justify-between gap-6 px-4 md:px-10">
           <div className="flex flex-col items-start gap-0.5">
             <h2 className="text-foreground text-4xl font-bold">
               Blockchain Dashboard

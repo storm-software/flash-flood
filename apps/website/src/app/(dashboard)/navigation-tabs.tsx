@@ -1,6 +1,6 @@
 /* -------------------------------------------------------------------
 
-                 ⚡ Storm Software - Pump Dot Dump
+                ⚡ Storm Software - Pump Dot Dump
 
  This code was released as part of the Pump Dot Dump project. Pump Dot Dump
  is maintained by Storm Software under the Apache-2.0 License, and is
@@ -29,9 +29,11 @@ export function NavigationTabs({ children }: { children: React.ReactNode }) {
     <Tabs
       defaultValue="wallet-groups"
       value={!segment ? "wallet-groups" : segment}
-      className="w-full py-8 sm:px-6 lg:px-8">
+      className="w-full px-4 py-6">
       <TabsList className="mx-auto grid grid-cols-3">
-        <TabsTrigger value="wallet-groups">
+        <TabsTrigger
+          value="wallet-groups"
+          className="data-[state=active]:bg-zinc-50 dark:data-[state=active]:bg-zinc-900">
           <Link href="/wallet-groups" className="flex items-center gap-2">
             <Wallet /> Wallets
           </Link>

@@ -16,16 +16,16 @@
  ------------------------------------------------------------------- */
 
 export function getBaseUrl(): string {
-  if (process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL) {
-    return `https://${process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL}`;
-  }
-
-  if (process.env.NEXT_PUBLIC_VERCEL_URL) {
-    return `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`;
-  }
-
-  if (process.env.NEXT_PUBLIC_BASE_URL) {
-    return process.env.NEXT_PUBLIC_BASE_URL;
+  if (
+    process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL ||
+    process.env.NEXT_PUBLIC_VERCEL_URL ||
+    process.env.NEXT_PUBLIC_BASE_URL
+  ) {
+    return formatUrl(
+      (process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL ||
+        process.env.NEXT_PUBLIC_VERCEL_URL ||
+        process.env.NEXT_PUBLIC_BASE_URL)!
+    );
   }
 
   if (typeof window !== "undefined") {
@@ -34,4 +34,12 @@ export function getBaseUrl(): string {
 
   // Fallback for server-side rendering
   return "http://localhost:3000";
+}
+
+export function formatUrl(url: string): string {
+  if (!url.startsWith("http://") && !url.startsWith("https://")) {
+    return `https://${url}`;
+  }
+
+  return url;
 }

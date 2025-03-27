@@ -15,7 +15,7 @@ generator zod {
 }
 
 model User {
-    id              String        @id
+    id              String        @id @default(uuid(7))
     name            String
     email           String        @unique
     emailVerified   Boolean       @default(false)
@@ -31,13 +31,15 @@ model User {
     sessions        Session[]
     accounts        Account[]
     walletGroups    WalletGroup[]
-    Wallet          Wallet[]
+    wallets         Wallet[]
+    transactions    Transaction[]
+    tokens          Token[]
 
     @@map("user")
 }
 
 model Session {
-    id             String   @id
+    id             String   @id @default(uuid(7))
     expiresAt      DateTime
     token          String   @unique
     createdAt      DateTime @default(now())
@@ -52,7 +54,7 @@ model Session {
 }
 
 model Account {
-    id                    String    @id
+    id                    String    @id @default(uuid(7))
     accountId             String
     providerId            String
     userId                String
@@ -72,7 +74,7 @@ model Account {
 }
 
 model Verification {
-    id         String    @id
+    id         String    @id @default(uuid(7))
     identifier String
     value      String
     expiresAt  DateTime
@@ -82,21 +84,21 @@ model Verification {
     @@map("verification")
 }
 
-enum WalletType {
+enum BlockchainType {
     ethereum
     solana
 }
 
 model WalletGroup {
-    id          String     @id
+    id          String         @id @default(uuid(7))
     name        String
     description String?
-    type        WalletType
+    type        BlockchainType @default(ethereum)
     userId      String
-    user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+    user        User           @relation(fields: [userId], references: [id], onDelete: Cascade)
     wallets     Wallet[]
-    createdAt   DateTime   @default(now())
-    updatedAt   DateTime   @updatedAt
+    createdAt   DateTime       @default(now())
+    updatedAt   DateTime       @updatedAt
     deletedAt   DateTime?
 
     @@unique([name, userId])
@@ -104,19 +106,60 @@ model WalletGroup {
 }
 
 model Wallet {
-    id          String      @id
-    groupId     String
-    group       WalletGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
+    id          String        @id @default(uuid(7))
+    groupId     String?
+    group       WalletGroup?  @relation(fields: [groupId], references: [id], onDelete: Cascade)
     description String?
-    userId      String
-    user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
     mnemonic    String?
     address     String?
-    publicKey   String      @unique
-    privateKey  String      @unique
-    createdAt   DateTime    @default(now())
-    updatedAt   DateTime    @updatedAt
+    publicKey   String        @unique
+    privateKey  String        @unique
+    sent        Transaction[] @relation(name: "TransactionToSender")
+    received    Transaction[] @relation(name: "TransactionToReceiver")
+    userId      String
+    user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+    createdAt   DateTime      @default(now())
+    updatedAt   DateTime      @updatedAt
     deletedAt   DateTime?
 
     @@map("wallet")
+}
+
+model Token {
+    id           String         @id @default(uuid(7))
+    name         String         @unique
+    symbol       String         @unique
+    description  String?
+    type         BlockchainType
+    transactions Transaction[]
+    userId       String
+    user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+    createdAt    DateTime       @default(now())
+    updatedAt    DateTime       @updatedAt
+    deletedAt    DateTime?
+
+    @@map("token")
+}
+
+enum TransactionStatus {
+    submitted
+    pending
+    completed
+}
+
+model Transaction {
+    id         String            @id @default(uuid(7))
+    status     TransactionStatus @default(submitted)
+    amount     Decimal
+    senderId   String
+    sender     Wallet            @relation(name: "TransactionToSender", fields: [senderId], references: [id])
+    receiverId String
+    receiver   Wallet            @relation(name: "TransactionToReceiver", fields: [receiverId], references: [id])
+    tokenId    String
+    token      Token             @relation(fields: [tokenId], references: [id], onDelete: Cascade)
+    userId     String
+    user       User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+    createdAt  DateTime          @default(now())
+
+    @@map("transaction")
 }

@@ -42,7 +42,7 @@ export default async function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`bg-white text-black dark:bg-zinc-900 dark:text-white ${manrope.className}`}>
+      className={`bg-zinc-50 text-black dark:bg-zinc-900 dark:text-white ${manrope.className}`}>
       <body className="min-h-[100dvh] bg-zinc-50 dark:bg-zinc-900">
         <Providers>
           <NavigationHeader />

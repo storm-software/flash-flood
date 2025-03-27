@@ -1,6 +1,6 @@
 /* -------------------------------------------------------------------
 
-                 ⚡ Storm Software - Pump Dot Dump
+                ⚡ Storm Software - Pump Dot Dump
 
  This code was released as part of the Pump Dot Dump project. Pump Dot Dump
  is maintained by Storm Software under the Apache-2.0 License, and is
@@ -23,13 +23,6 @@ import { TableSkeleton } from "../table-skeleton";
 import { WalletGroupsTable } from "./table";
 
 export default async function WalletGroupsPage() {
-  // const session = await auth.api.getSession({
-  //   headers: await headers()
-  // });
-
-  // const queryClient = getQueryClient();
-  // void queryClient.prefetchQuery(walletsOptions);
-
   return (
     <>
       <div className="flex w-full flex-row justify-between gap-6">

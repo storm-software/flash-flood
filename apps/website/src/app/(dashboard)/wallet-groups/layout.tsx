@@ -1,6 +1,6 @@
 /* -------------------------------------------------------------------
 
-                 ⚡ Storm Software - Pump Dot Dump
+                ⚡ Storm Software - Pump Dot Dump
 
  This code was released as part of the Pump Dot Dump project. Pump Dot Dump
  is maintained by Storm Software under the Apache-2.0 License, and is
@@ -15,18 +15,28 @@
 
  ------------------------------------------------------------------- */
 
+import { auth } from "@/lib/auth/server";
 import { Card } from "@/ui/components/ui/card";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 
-export default function Layout({
+export default async function Layout({
   drawer,
   children
 }: {
   drawer: React.ReactNode;
   children: React.ReactNode;
 }) {
+  const session = await auth.api.getSession({
+    headers: await headers()
+  });
+  if (!session?.user) {
+    redirect("/login");
+  }
+
   return (
     <div className="w-full">
-      <Card className="w-full py-8 sm:px-6 lg:px-8">{children}</Card>
+      <Card className="w-full px-2 py-8 sm:px-6">{children}</Card>
 
       {drawer}
     </div>
