@@ -24,10 +24,6 @@
         nixpkgs.lib.genAttrs nixpkgs.lib.systems.flakeExposed (system: f nixpkgs.legacyPackages.${system});
     in
     {
-      packages = eachSystem (pkgs: {
-        pumpDotDump = pkgs.pumpDotDump;
-      });
-
       devShells = eachSystem (pkgs: {
         default = pkgs.mkShell {
           packages = [
