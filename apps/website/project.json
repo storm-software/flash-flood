@@ -33,23 +33,6 @@
         "command": "pnpm exec tsx prisma/seed.ts",
         "cwd": "apps/website"
       }
-    },
-    "build": {
-      "executor": "@nx/next:build",
-      "outputs": ["{options.outputPath}"],
-      "defaultConfiguration": "production",
-      "dependsOn": ["prisma-generate"],
-      "options": {
-        "outputPath": "dist/apps/website",
-        "buildLibsFromSource": true,
-        "debug": true
-      },
-      "configurations": {
-        "development": {
-          "debug": true
-        },
-        "production": {}
-      }
     }
   }
 }

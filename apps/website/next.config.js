@@ -104,7 +104,7 @@ upgrade-insecure-requests;
         headers: [
           {
             key: "Access-Control-Allow-Origin",
-            value: "http://localhost:3000" // Replace with your actual origin
+            value: "https://pump-dot-dump-website.vercel.app" // Replace with your actual origin
           },
           {
             key: "Access-Control-Allow-Methods",
