@@ -2,7 +2,7 @@
   "name": "@pump-dot-dump/monorepo",
   "version": "0.0.1",
   "type": "module",
-  "description": "💪 A testing application for managing bulk blockchain operations.",
+  "description": "💪 An experimental application for managing bulk blockchain operations.",
   "repository": "storm-software/pump-dot-dump.git",
   "license": "Apache-2.0",
   "private": true,

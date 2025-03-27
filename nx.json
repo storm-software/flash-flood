@@ -8,8 +8,8 @@
   },
   "release": {
     "groups": {
-      "packages": {
-        "projects": ["packages/*"],
+      "website": {
+        "projects": ["apps/website"],
         "projectsRelationship": "independent",
         "releaseTagPattern": "{projectName}@{version}"
       }
