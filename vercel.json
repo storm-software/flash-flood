@@ -4,5 +4,6 @@
   "github": {
     "enabled": false
   },
-  "builds": [{ "src": "dist/apps/website", "use": "@vercel/static" }]
+  "buildCommand": "pnpm nx run website:build --prod",
+  "framework": "nextjs"
 }
