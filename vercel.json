@@ -4,6 +4,6 @@
   "github": {
     "enabled": true
   },
-  "buildCommand": "pnpm nx run website:build --prod",
+  "buildCommand": "pnpm build",
   "framework": "nextjs"
 }

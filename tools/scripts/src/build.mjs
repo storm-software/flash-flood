@@ -45,8 +45,19 @@ try {
     );
   }
 
+  proc = $`pnpm nx run website:prisma-generate`.timeout("60s");
+  proc.stdout.on("data", data => {
+    echo`${data}`;
+  });
+  result = await proc;
+  if (!result.ok) {
+    throw new Error(
+      `An error occured while generating the prisma client: \n\n${result.message}\n`
+    );
+  }
+
   if (configuration === "production") {
-    proc = $`pnpm nx run-many --target=build --all --exclude="@pump-dot-dump/monorepo" --configuration=production --parallel=5`;
+    proc = $`pnpm nx run website:build --configuration=production`;
     proc.stdout.on("data", data => {
       echo`${data}`;
     });
@@ -58,7 +69,7 @@ try {
       );
     }
   } else {
-    proc = $`pnpm nx run-many --target=build --all --exclude="@pump-dot-dump/monorepo" --configuration=${configuration} --nxBail`;
+    proc = $`pnpm nx run website:build --configuration=${configuration}`;
     proc.stdout.on("data", data => {
       echo`${data}`;
     });
@@ -66,7 +77,7 @@ try {
 
     if (!result.ok) {
       throw new Error(
-        `An error occured while building the monorepo in development mode: \n\n${result.message}\n`
+        `An error occured while building the monorepo in ${configuration} mode: \n\n${result.message}\n`
       );
     }
   }
