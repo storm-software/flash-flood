@@ -1,6 +1,6 @@
 /* -------------------------------------------------------------------
 
-                 ⚡ Storm Software - Pump Dot Dump
+                ⚡ Storm Software - Pump Dot Dump
 
  This code was released as part of the Pump Dot Dump project. Pump Dot Dump
  is maintained by Storm Software under the Apache-2.0 License, and is
@@ -16,10 +16,12 @@
  ------------------------------------------------------------------- */
 
 export function getBaseUrl(): string {
-  if (process.env.BASE_URL || process.env.NEXT_URL || process.env.VERCEL_URL) {
-    return (process.env.BASE_URL ||
-      process.env.NEXT_URL ||
-      process.env.VERCEL_URL)!;
+  if (process.env.NEXT_PUBLIC_VERCEL_URL) {
+    return `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`;
+  }
+
+  if (process.env.NEXT_PUBLIC_BASE_URL) {
+    return process.env.NEXT_PUBLIC_BASE_URL;
   }
 
   if (typeof window !== "undefined") {

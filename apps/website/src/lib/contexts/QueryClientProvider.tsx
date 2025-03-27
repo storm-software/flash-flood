@@ -32,7 +32,9 @@ export function QueryClientProvider({
   return (
     <ReactQueryClientProvider client={queryClient}>
       {children}
-      {Boolean(process.env.NEXT_DEVELOPMENT) && <ReactQueryDevtools />}
+      {process.env.NEXT_PUBLIC_VERCEL_ENV === "development" && (
+        <ReactQueryDevtools />
+      )}
     </ReactQueryClientProvider>
   );
 }

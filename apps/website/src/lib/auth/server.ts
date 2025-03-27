@@ -1,6 +1,6 @@
 /* -------------------------------------------------------------------
 
-                 ⚡ Storm Software - Pump Dot Dump
+                ⚡ Storm Software - Pump Dot Dump
 
  This code was released as part of the Pump Dot Dump project. Pump Dot Dump
  is maintained by Storm Software under the Apache-2.0 License, and is
@@ -16,6 +16,7 @@
  ------------------------------------------------------------------- */
 
 import { prisma } from "@/db/prisma";
+import { getBaseUrl } from "@/query/get-base-url";
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { nextCookies } from "better-auth/next-js";
@@ -23,12 +24,12 @@ import { admin, username } from "better-auth/plugins";
 
 export const auth = betterAuth({
   appName: "pump-dot-dump",
-  baseURL: process.env.BASE_URL || "http://localhost:3000",
+  baseURL: getBaseUrl(),
   basePath: "/api/v1/auth",
   secret: process.env.BETTER_AUTH_SECRET,
   cookieName: "auth",
   cookieOptions: {
-    secure: process.env.NODE_ENV === "production",
+    secure: process.env.NEXT_PUBLIC_VERCEL_ENV !== "development",
     sameSite: "lax",
     httpOnly: true,
     maxAge: 60 * 60 * 24 * 7 // 1 week
@@ -47,9 +48,9 @@ export const auth = betterAuth({
       minUsernameLength: 5,
       maxUsernameLength: 50,
       usernameValidator: (username: string) => {
-        // if (username === "admin" || username.endsWith("admin")) {
-        //   return false;
-        // }
+        if (username !== "admin" && username.endsWith("admin")) {
+          return false;
+        }
 
         return true;
       }

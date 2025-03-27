@@ -1,6 +1,6 @@
 /* -------------------------------------------------------------------
 
-                 ⚡ Storm Software - Pump Dot Dump
+                ⚡ Storm Software - Pump Dot Dump
 
  This code was released as part of the Pump Dot Dump project. Pump Dot Dump
  is maintained by Storm Software under the Apache-2.0 License, and is
@@ -15,11 +15,12 @@
 
  ------------------------------------------------------------------- */
 
+import { getBaseUrl } from "@/query/get-base-url";
 import { adminClient, usernameClient } from "better-auth/client/plugins";
-import { createAuthClient } from "better-auth/react"; // make sure to import from better-auth/react
+import { createAuthClient } from "better-auth/react";
 
 export const authClient = createAuthClient({
-  baseURL: "http://localhost:3000",
+  baseURL: getBaseUrl(),
   basePath: "/api/v1/auth",
   plugins: [usernameClient(), adminClient()]
 });
