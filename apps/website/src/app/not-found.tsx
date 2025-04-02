@@ -1,6 +1,6 @@
 /* -------------------------------------------------------------------
 
-                 ⚡ Storm Software - Pump Dot Dump
+                ⚡ Storm Software - Pump Dot Dump
 
  This code was released as part of the Pump Dot Dump project. Pump Dot Dump
  is maintained by Storm Software under the Apache-2.0 License, and is
@@ -16,7 +16,7 @@
  ------------------------------------------------------------------- */
 
 import { Button } from "@/ui/components/ui/button";
-import { CircleIcon } from "lucide-react";
+import { TriangleAlert } from "lucide-react";
 import Link from "next/link";
 
 export default function NotFound() {
@@ -24,7 +24,7 @@ export default function NotFound() {
     <div className="flex min-h-[75dvh] items-center justify-center">
       <div className="max-w-md space-y-8 p-4 text-center">
         <div className="flex justify-center">
-          <CircleIcon className="text-foreground size-16" />
+          <TriangleAlert className="size-50 text-red-800 dark:text-red-500" />
         </div>
         <h2 className="text-foreground text-4xl font-bold tracking-tight">
           Page not found

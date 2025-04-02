@@ -1,6 +1,6 @@
 /* -------------------------------------------------------------------
 
-                 ⚡ Storm Software - Pump Dot Dump
+                ⚡ Storm Software - Pump Dot Dump
 
  This code was released as part of the Pump Dot Dump project. Pump Dot Dump
  is maintained by Storm Software under the Apache-2.0 License, and is
@@ -18,13 +18,13 @@
 "use server";
 
 import { auth } from "@/auth/server";
-import { prisma } from "@/db/prisma";
 import type { ServerActionResult } from "@/lib/types";
-import { Keypair } from "@solana/web3.js";
+import { generateKeyPair, Keypair } from "@solana/kit";
 import { Wallet } from "ethers";
 import { headers } from "next/headers";
 import { notFound, unauthorized } from "next/navigation";
 import { Buffer } from "node:buffer";
+import { prisma } from "src/db/prisma";
 import type {
   CreateWalletGroupSchema,
   UpdateWalletGroupSchema
@@ -57,7 +57,6 @@ export async function createWalletGroupAction(
       id: crypto.randomUUID(),
       name: validatedFields.data.name,
       type: validatedFields.data.type,
-      description: validatedFields.data.description,
       userId: session.user.id
     }
   });
@@ -90,7 +89,7 @@ export async function createWalletGroupAction(
     await Promise.all(
       Array.from({ length: validatedFields.data.numberOfWallets }).map(
         async () => {
-          const wallet = Keypair.generate();
+          const wallet = await generateKeyPair();
           if (!wallet) {
             throw new Error("Failed to create wallet");
           }
@@ -99,8 +98,16 @@ export async function createWalletGroupAction(
             data: {
               id: crypto.randomUUID(),
               groupId,
-              publicKey: wallet.publicKey.toString(),
-              privateKey: Buffer.from(wallet.secretKey).toString("hex"),
+              publicKey: Buffer.from(
+                new Uint8Array(
+                  await crypto.subtle.exportKey("raw", wallet.publicKey)
+                )
+              ).toString("hex"),
+              privateKey: Buffer.from(
+                new Uint8Array(
+                  await crypto.subtle.exportKey("raw", wallet.publicKey)
+                )
+              ).toString("hex"),
               userId: session.user.id
             }
           });

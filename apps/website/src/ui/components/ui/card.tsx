@@ -1,3 +1,20 @@
+/* -------------------------------------------------------------------
+
+                ⚡ Storm Software - Pump Dot Dump
+
+ This code was released as part of the Pump Dot Dump project. Pump Dot Dump
+ is maintained by Storm Software under the Apache-2.0 License, and is
+ free for commercial and private use. For more information, please visit
+ our licensing page.
+
+ Website:         https://stormsoftware.com
+ Repository:      https://github.com/storm-software/pump-dot-dump
+ Documentation:   https://stormsoftware.com/projects/pump-dot-dump/docs
+ Contact:         https://stormsoftware.com/contact
+ License:         https://stormsoftware.com/projects/pump-dot-dump/license
+
+ ------------------------------------------------------------------- */
+
 import * as React from "react";
 
 import { cn } from "@/ui/lib/utils";
@@ -20,7 +37,7 @@ function CardHeader({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="card-header"
       className={cn(
-        "@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-1.5 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6",
+        "@container/card-header has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 grid auto-rows-min grid-rows-[auto_auto] items-start gap-1.5 px-6",
         className
       )}
       {...props}
@@ -32,7 +49,7 @@ function CardTitle({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="card-title"
-      className={cn("leading-none font-semibold", className)}
+      className={cn("font-semibold leading-none", className)}
       {...props}
     />
   );
@@ -75,7 +92,7 @@ function CardFooter({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="card-footer"
-      className={cn("flex items-center px-6 [.border-t]:pt-6", className)}
+      className={cn("[.border-t]:pt-6 flex items-center px-6", className)}
       {...props}
     />
   );

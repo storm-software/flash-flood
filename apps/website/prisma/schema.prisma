@@ -7,15 +7,24 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-generator zod {
-    provider          = "prisma-zod-generator"
-    output            = "../src/generated/validations"
-    isGenerateSelect  = true
-    isGenerateInclude = true
+generator auth {
+    provider       = "prisma-better-auth-generator"
+    output         = "../src/auth/__generated__"
+    debug          = true
+    withSoftDelete = true
+}
+
+generator trpc {
+    provider       = "prisma-trpc-generator"
+    output         = "../src/trpc/__generated__"
+    debug          = true
+    withZod        = true
+    withNext       = true
+    withMiddleware = "../src/trpc/middleware"
 }
 
 model User {
-    id              String        @id @default(uuid(7))
+    id              String        @id @default(uuid())
     name            String
     email           String        @unique
     emailVerified   Boolean       @default(false)
@@ -39,7 +48,7 @@ model User {
 }
 
 model Session {
-    id             String   @id @default(uuid(7))
+    id             String   @id @default(uuid())
     expiresAt      DateTime
     token          String   @unique
     createdAt      DateTime @default(now())
@@ -54,7 +63,7 @@ model Session {
 }
 
 model Account {
-    id                    String    @id @default(uuid(7))
+    id                    String    @id @default(uuid())
     accountId             String
     providerId            String
     userId                String
@@ -74,7 +83,7 @@ model Account {
 }
 
 model Verification {
-    id         String    @id @default(uuid(7))
+    id         String    @id @default(uuid())
     identifier String
     value      String
     expiresAt  DateTime
@@ -90,23 +99,21 @@ enum BlockchainType {
 }
 
 model WalletGroup {
-    id          String         @id @default(uuid(7))
-    name        String
-    description String?
-    type        BlockchainType @default(ethereum)
-    userId      String
-    user        User           @relation(fields: [userId], references: [id], onDelete: Cascade)
-    wallets     Wallet[]
-    createdAt   DateTime       @default(now())
-    updatedAt   DateTime       @updatedAt
-    deletedAt   DateTime?
+    id        String         @id @default(uuid())
+    name      String         @unique
+    type      BlockchainType @default(ethereum)
+    userId    String
+    user      User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+    wallets   Wallet[]
+    createdAt DateTime       @default(now())
+    updatedAt DateTime       @updatedAt
+    deletedAt DateTime?
 
-    @@unique([name, userId])
     @@map("walletGroup")
 }
 
 model Wallet {
-    id          String        @id @default(uuid(7))
+    id          String        @id @default(uuid())
     groupId     String?
     group       WalletGroup?  @relation(fields: [groupId], references: [id], onDelete: Cascade)
     description String?
@@ -126,11 +133,12 @@ model Wallet {
 }
 
 model Token {
-    id           String         @id @default(uuid(7))
+    id           String         @id @default(uuid())
     name         String         @unique
     symbol       String         @unique
     description  String?
     type         BlockchainType
+    address      String?
     transactions Transaction[]
     userId       String
     user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -148,7 +156,7 @@ enum TransactionStatus {
 }
 
 model Transaction {
-    id         String            @id @default(uuid(7))
+    id         String            @id @default(uuid())
     status     TransactionStatus @default(submitted)
     amount     Decimal
     senderId   String

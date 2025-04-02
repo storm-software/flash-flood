@@ -21,27 +21,27 @@ import { $, chalk, echo } from "zx";
 // usePwsh();
 
 try {
-  await echo`${chalk.whiteBright("💣  Nuking the monorepo...")}`;
+  await echo`\n${chalk.whiteBright("💣  Nuking the monorepo...")}\n\n`;
 
-  let proc = $`pnpm nx clear-cache`.timeout(`${5 * 60}s`);
-  proc.stdout.on("data", data => {
-    echo`${data}`;
-  });
-  let result = await proc;
-  if (!result.ok) {
-    throw new Error(
-      `An error occured while clearing Nx cache: \n\n${result.message}\n`
-    );
-  }
+  //   let proc = $`pnpm nx clear-cache`.timeout(`${5 * 60}s`);
+  //   proc.stdout.on("data", data => {
+  //     echo`${data}`;
+  //   });
+  //   let result = await proc;
+  //   if (!result.ok) {
+  //     throw new Error(
+  //       `An error occured while clearing Nx cache: \n\n${result.message}\n`
+  //     );
+  //   }
 
-  proc =
+  let proc =
     $`pnpm exec rimraf --no-interactive -- ./.nx/cache ./.nx/workspace-data ./dist ./tmp ./pnpm-lock.yaml`.timeout(
       `${5 * 60}s`
     );
   proc.stdout.on("data", data => {
     echo`${data}`;
   });
-  result = await proc;
+  let result = await proc;
   if (!result.ok) {
     throw new Error(
       `An error occured while removing cache directories: \n\n${result.message}\n`
@@ -49,7 +49,7 @@ try {
   }
 
   proc =
-    $`pnpm exec rimraf --no-interactive --glob "*/**/{node_modules,dist,.storm,.next}`.timeout(
+    $`pnpm exec rimraf --no-interactive --glob "apps/**/{node_modules,dist,.storm,.next}"`.timeout(
       `${5 * 60}s`
     );
   proc.stdout.on("data", data => {
@@ -63,7 +63,7 @@ try {
   }
 
   proc =
-    $`pnpm exec rimraf --no-interactive --glob "./node_modules/!rimraf/**"`.timeout(
+    $`pnpm exec rimraf --no-interactive --glob "./node_modules/**"`.timeout(
       `${5 * 60}s`
     );
   proc.stdout.on("data", data => {

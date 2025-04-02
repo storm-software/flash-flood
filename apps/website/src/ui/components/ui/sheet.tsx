@@ -1,3 +1,20 @@
+/* -------------------------------------------------------------------
+
+                ⚡ Storm Software - Pump Dot Dump
+
+ This code was released as part of the Pump Dot Dump project. Pump Dot Dump
+ is maintained by Storm Software under the Apache-2.0 License, and is
+ free for commercial and private use. For more information, please visit
+ our licensing page.
+
+ Website:         https://stormsoftware.com
+ Repository:      https://github.com/storm-software/pump-dot-dump
+ Documentation:   https://stormsoftware.com/projects/pump-dot-dump/docs
+ Contact:         https://stormsoftware.com/contact
+ License:         https://stormsoftware.com/projects/pump-dot-dump/license
+
+ ------------------------------------------------------------------- */
+
 "use client";
 
 import * as SheetPrimitive from "@radix-ui/react-dialog";
@@ -71,7 +88,7 @@ function SheetContent({
         )}
         {...props}>
         {children}
-        <SheetPrimitive.Close className="ring-offset-background focus:ring-ring data-[state=open]:bg-secondary absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none">
+        <SheetPrimitive.Close className="ring-offset-background focus:ring-ring data-[state=open]:bg-secondary rounded-xs focus:outline-hidden absolute right-4 top-4 opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 disabled:pointer-events-none">
           <XIcon className="size-4" />
           <span className="sr-only">Close</span>
         </SheetPrimitive.Close>

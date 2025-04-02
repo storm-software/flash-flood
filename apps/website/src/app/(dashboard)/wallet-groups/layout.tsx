@@ -15,7 +15,7 @@
 
  ------------------------------------------------------------------- */
 
-import { auth } from "@/lib/auth/server";
+import { auth } from "@/auth/server";
 import { Card } from "@/ui/components/ui/card";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";

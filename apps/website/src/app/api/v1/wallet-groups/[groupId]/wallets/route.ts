@@ -1,6 +1,6 @@
 /* -------------------------------------------------------------------
 
-                 ⚡ Storm Software - Pump Dot Dump
+                ⚡ Storm Software - Pump Dot Dump
 
  This code was released as part of the Pump Dot Dump project. Pump Dot Dump
  is maintained by Storm Software under the Apache-2.0 License, and is
@@ -16,12 +16,12 @@
  ------------------------------------------------------------------- */
 
 import { auth } from "@/auth/server";
-import { prisma } from "@/db/prisma";
 import { StormURLBuilder } from "@stryke/http";
 import { headers } from "next/headers";
 import { unauthorized } from "next/navigation";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
+import { prisma } from "src/db/prisma";
 
 export async function GET(request: NextRequest) {
   const session = await auth.api.getSession({

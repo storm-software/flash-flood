@@ -21,6 +21,7 @@ import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { nextCookies } from "better-auth/next-js";
 import { admin, username } from "better-auth/plugins";
+import { ac, adminRole, guestRole, managerRole, userRole } from "./permissions";
 
 export const auth = betterAuth({
   appName: "pump-dot-dump",
@@ -56,8 +57,22 @@ export const auth = betterAuth({
       }
     }),
     admin({
-      adminUserIds: ["admin"]
+      ac,
+      roles: {
+        admin: adminRole,
+        manager: managerRole,
+        user: userRole,
+        guest: guestRole
+      },
+      adminUserIds: ["admin"],
+      defaultRole: "guest"
     }),
     nextCookies()
-  ]
+  ],
+  socialProviders: {
+    discord: {
+      clientId: process.env.DISCORD_CLIENT_ID as string,
+      clientSecret: process.env.DISCORD_CLIENT_SECRET as string
+    }
+  }
 });

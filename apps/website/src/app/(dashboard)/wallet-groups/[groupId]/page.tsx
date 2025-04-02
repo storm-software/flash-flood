@@ -16,6 +16,7 @@
  ------------------------------------------------------------------- */
 
 import { prisma } from "@/db/prisma";
+import { HydrateClient, prefetch, trpc } from "@/query/server";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -42,6 +43,7 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { EthereumLogo } from "../../ethereum-logo";
 import { SolanaLogo } from "../../solana-logo";
+import { TableErrorBoundary } from "../../table-error-boundary";
 import { TableSkeleton } from "../../table-skeleton";
 import { WalletsTable } from "./table";
 
@@ -51,6 +53,25 @@ export default async function Page({
   params: Promise<{ groupId: string }>;
 }) {
   const { groupId } = await params;
+
+  prefetch(
+    trpc.wallet.findMany.queryOptions({
+      where: { groupId },
+      select: {
+        id: true,
+        groupId: true,
+        description: true,
+        address: true,
+        publicKey: true,
+        createdAt: true,
+        updatedAt: true,
+        userId: true,
+        user: {
+          select: { id: true, displayUsername: true }
+        }
+      }
+    })
+  );
 
   const walletGroup = await prisma.walletGroup.findFirst({
     where: { id: groupId },
@@ -67,21 +88,22 @@ export default async function Page({
 
   return (
     <>
-      <div className="flex w-full flex-row justify-between gap-6">
-        <div className="flex w-full flex-col gap-4">
-          <Breadcrumb>
-            <BreadcrumbList>
-              <BreadcrumbItem>
-                <BreadcrumbLink href="/wallet-groups">
-                  Wallet Groups
-                </BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator />
-              <BreadcrumbItem>
-                <BreadcrumbPage>{walletGroup.name}</BreadcrumbPage>
-              </BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
+      <div className="flex w-full flex-col gap-4">
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/wallet-groups">
+                Wallet Bundles
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>{walletGroup.name}</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+
+        <div className="flex w-full flex-col gap-6 sm:flex-row sm:justify-between">
           <div className="flex flex-row items-center gap-2">
             {walletGroup.type === "ethereum" ? (
               <EthereumLogo className="size-12" />
@@ -90,7 +112,7 @@ export default async function Page({
             )}
             <div className="gap-0.25 flex flex-col justify-start text-start">
               <h3 className="text-foreground text-3xl font-bold">
-                Wallet Bundle - {walletGroup.name}
+                {walletGroup.name}
               </h3>
               <p className="text-muted-foreground">
                 {walletGroup.createdAt.toISOString() ===
@@ -109,48 +131,53 @@ export default async function Page({
               </p>
             </div>
           </div>
-        </div>
 
-        <div className="flex flex-row items-center gap-4 sm:items-start">
-          <Button asChild variant="secondary">
-            <Link
-              href={`/wallet-groups/${groupId}/update`}
-              className="flex items-center gap-2">
-              Edit Bundle <Pencil />
-            </Link>
-          </Button>
-          <AlertDialog>
-            <AlertDialogTrigger asChild>
-              <Button
-                className="flex cursor-pointer items-center gap-2"
-                variant="destructive">
-                Delete Bundle <Trash2 />
-              </Button>
-            </AlertDialogTrigger>
+          <div className="flex flex-row items-center gap-4 sm:items-start">
+            <Button asChild variant="secondary">
+              <Link
+                href={`/wallet-groups/${groupId}/update`}
+                className="flex items-center gap-2">
+                Edit Bundle <Pencil />
+              </Link>
+            </Button>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button
+                  className="flex cursor-pointer items-center gap-2"
+                  variant="destructive">
+                  Delete Bundle <Trash2 />
+                </Button>
+              </AlertDialogTrigger>
 
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>
-                  Are you sure you want to delete the wallet bundle?
-                </AlertDialogTitle>
-                <AlertDialogDescription>
-                  This action cannot be undone. This will permanently delete the
-                  wallet bundle and all of the underlying wallets.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction asChild>
-                  <Button variant="destructive">Delete</Button>
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>
+                    Are you sure you want to delete the wallet bundle?
+                  </AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This action cannot be undone. This will permanently delete
+                    the wallet bundle and all of the underlying wallets.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction asChild>
+                    <Button variant="destructive">Delete</Button>
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </div>
         </div>
       </div>
-      <Suspense fallback={<TableSkeleton />}>
-        <WalletsTable groupId={groupId} type={walletGroup.type} />
-      </Suspense>
+
+      <HydrateClient>
+        <TableErrorBoundary>
+          <Suspense fallback={<TableSkeleton />}>
+            <WalletsTable groupId={groupId} type={walletGroup.type} />
+          </Suspense>
+        </TableErrorBoundary>
+      </HydrateClient>
     </>
   );
 }

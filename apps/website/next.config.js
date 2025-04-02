@@ -42,6 +42,8 @@ const nextConfig = {
     ignoreBuildErrors: true
   },
 
+  // serverExternalPackages: ["@stryke/trpc-next"],
+
   async redirects() {
     return [
       {
@@ -60,7 +62,7 @@ const nextConfig = {
           {
             key: "Content-Security-Policy",
             value: `
-default-src 'self' pump-dot-dump-website.vercel.app;
+default-src 'self';
 script-src 'self' 'unsafe-eval' 'unsafe-inline';
 style-src 'self' 'unsafe-inline';
 img-src 'self' blob: data:;
@@ -104,7 +106,7 @@ upgrade-insecure-requests;
         headers: [
           {
             key: "Access-Control-Allow-Origin",
-            value: "https://pump-dot-dump-website.vercel.app" // Replace with your actual origin
+            value: "http://localhost:3000" // Replace with your actual origin
           },
           {
             key: "Access-Control-Allow-Methods",

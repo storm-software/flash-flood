@@ -1,6 +1,6 @@
 /* -------------------------------------------------------------------
 
-                 ⚡ Storm Software - Pump Dot Dump
+                ⚡ Storm Software - Pump Dot Dump
 
  This code was released as part of the Pump Dot Dump project. Pump Dot Dump
  is maintained by Storm Software under the Apache-2.0 License, and is
@@ -17,13 +17,20 @@
 
 /* eslint-disable camelcase */
 
+import type { AppRouter } from "@/trpc/__generated__/routers";
+import { joinPaths } from "@stryke/path/join-paths";
+import { transformer } from "@stryke/trpc-next/shared";
 import { broadcastQueryClient } from "@tanstack/query-broadcast-client-experimental";
+import type { PersistedQuery } from "@tanstack/query-persist-client-core";
 import { experimental_createPersister } from "@tanstack/query-persist-client-core";
 import {
   defaultShouldDehydrateQuery,
   isServer,
   QueryClient
 } from "@tanstack/react-query";
+import type React from "react";
+import { createTRPCTanstackQueryClient } from "./create-client";
+import { getBaseUrl } from "./get-base-url";
 
 let browserQueryClient: QueryClient | undefined;
 
@@ -54,14 +61,13 @@ export function getQueryClient() {
             persister: experimental_createPersister({
               prefix: "pump-dot-dump",
               storage: window.localStorage,
-              maxAge: 1000 * 60 * 60 * 24 * 24
-              // serialize: persistedQuery => {
-              //   return StormJSON.stringify(persistedQuery);
-              // },
-              // deserialize: cachedString => {
-              //   // eslint-disable-next-line ts/no-unnecessary-type-assertion
-              //   return StormJSON.parse(cachedString) as PersistedQuery;
-              // }
+              maxAge: 1000 * 60 * 60 * 24 * 24,
+              serialize: persistedQuery => {
+                return transformer.serialize(persistedQuery);
+              },
+              deserialize: cachedString => {
+                return transformer.deserialize(cachedString) as PersistedQuery;
+              }
             })
           },
           dehydrate: {
@@ -81,3 +87,13 @@ export function getQueryClient() {
     return browserQueryClient;
   }
 }
+
+const result = createTRPCTanstackQueryClient<AppRouter>(
+  joinPaths(getBaseUrl(), "api/v1/trpc"),
+  getQueryClient()
+);
+
+export const TRPCTanstackQueryProvider: (props: {
+  children: React.ReactNode;
+}) => React.JSX.Element = result.TRPCTanstackQueryProvider;
+export const useTRPCTanstackQuery = result.useTRPCTanstackQuery;

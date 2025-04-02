@@ -15,14 +15,32 @@
 
  ------------------------------------------------------------------- */
 
+import { HydrateClient, prefetch, trpc } from "@/query/server";
 import { Button } from "@/ui/components/ui/button";
 import { Plus, Wallet } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
+import { TableErrorBoundary } from "../table-error-boundary";
 import { TableSkeleton } from "../table-skeleton";
 import { WalletGroupsTable } from "./table";
 
-export default async function WalletGroupsPage() {
+export const dynamic = "force-dynamic";
+
+export default async function Page() {
+  prefetch(
+    trpc.walletGroup.findMany.queryOptions({
+      where: { deletedAt: null },
+      include: {
+        wallets: {
+          select: { id: true }
+        },
+        user: {
+          select: { id: true, displayUsername: true }
+        }
+      }
+    })
+  );
+
   return (
     <>
       <div className="flex w-full flex-row justify-between gap-6">
@@ -48,9 +66,13 @@ export default async function WalletGroupsPage() {
           </Button>
         </div>
       </div>
-      <Suspense fallback={<TableSkeleton />}>
-        <WalletGroupsTable />
-      </Suspense>
+      <HydrateClient>
+        <TableErrorBoundary>
+          <Suspense fallback={<TableSkeleton />}>
+            <WalletGroupsTable />
+          </Suspense>
+        </TableErrorBoundary>
+      </HydrateClient>
     </>
   );
 }

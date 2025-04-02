@@ -18,7 +18,8 @@
 "use client";
 
 import type { BlockchainType } from "@/lib/types";
-import { getWalletsTableOptions } from "@/query/wallet-group-options";
+import { useTRPCTanstackQuery } from "@/query/client";
+import type { Wallet } from "@/trpc/__generated__/schemas/models/wallet.schema";
 import { Button } from "@/ui/components/ui/button";
 import {
   DropdownMenu,
@@ -57,20 +58,13 @@ import { ArrowDown10, ChevronDown, Download } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
-export interface Wallet {
-  id: string;
-  groupId: string;
-  publicKey: string;
-  address: string | null;
-  description: string | null;
+export interface WalletTableRow extends Wallet {
   displayUserName: string;
-  createdAt: Date;
-  updatedAt: Date;
 }
 
-const columnHelper = createColumnHelper<Wallet>();
+const columnHelper = createColumnHelper<WalletTableRow>();
 
-export const columns: ColumnDef<Wallet>[] = [
+export const columns = [
   columnHelper.accessor("id", {
     header: "Identifier",
     enableSorting: true,
@@ -152,7 +146,7 @@ export const columns: ColumnDef<Wallet>[] = [
       enableHiding: true
     }
   )
-];
+] as ColumnDef<WalletTableRow>[];
 
 export function WalletsTable({
   groupId,
@@ -172,7 +166,37 @@ export function WalletsTable({
   });
   const [rowSelection, setRowSelection] = useState({});
 
-  const { data } = useSuspenseQuery(getWalletsTableOptions(groupId));
+  const trpc = useTRPCTanstackQuery();
+  const { data } = useSuspenseQuery<WalletTableRow[]>(
+    trpc.wallet.findMany.queryOptions(
+      {
+        where: { groupId },
+        select: {
+          id: true,
+          groupId: true,
+          description: true,
+          address: true,
+          publicKey: true,
+          createdAt: true,
+          updatedAt: true,
+          userId: true,
+          user: {
+            select: { id: true, displayUsername: true }
+          }
+        }
+      },
+      {
+        select: (data: any) => {
+          return !Array.isArray(data?.json)
+            ? data
+            : data.json.map((wallet: any) => ({
+                ...wallet,
+                displayUserName: wallet.user.displayUsername
+              }));
+        }
+      }
+    )
+  );
 
   const table = useReactTable({
     data: data ?? [],

@@ -17,9 +17,8 @@
 
 "use client";
 
-import { useBlockchainFilter } from "@/hooks/use-blockchain-filter";
-import type { BlockchainType } from "@/lib/types";
-import { getWalletGroupsTableOptions } from "@/query/wallet-group-options";
+import { useTRPCTanstackQuery } from "@/query/client";
+import type { WalletGroup } from "@/trpc/__generated__/schemas/models/walletGroup.schema";
 import { Button } from "@/ui/components/ui/button";
 import {
   DropdownMenu,
@@ -36,6 +35,7 @@ import {
   TableHeader,
   TableRow
 } from "@/ui/components/ui/table";
+import { formatDateTime } from "@/utils/format-date";
 import { titleCase } from "@stryke/string-format/title-case";
 import { isSetString } from "@stryke/type-checks/is-set-string";
 import { useSuspenseQuery } from "@tanstack/react-query";
@@ -60,20 +60,14 @@ import { useState } from "react";
 import { EthereumLogo } from "../ethereum-logo";
 import { SolanaLogo } from "../solana-logo";
 
-export interface WalletGroup {
-  id: string;
-  name: string;
-  description: string | null;
-  type: BlockchainType;
+export interface WalletGroupTableRow extends WalletGroup {
   numberOfWallets: number;
   displayUserName: string;
-  createdAt: Date;
-  updatedAt: Date;
 }
 
-const columnHelper = createColumnHelper<WalletGroup>();
+const columnHelper = createColumnHelper<WalletGroupTableRow>();
 
-export const columns: ColumnDef<WalletGroup>[] = [
+export const columns = [
   columnHelper.accessor("id", {
     header: "Identifier",
     enableSorting: true,
@@ -112,59 +106,32 @@ export const columns: ColumnDef<WalletGroup>[] = [
     enableSorting: true,
     enableHiding: true
   }),
-  columnHelper.accessor("description", {
-    header: "Description",
-    enableSorting: true,
-    enableHiding: true
-  }),
   columnHelper.accessor("displayUserName", {
     header: "Updated By",
     enableSorting: true,
     enableHiding: true
   }),
-  columnHelper.accessor(
-    row =>
-      new Date(row.createdAt).toLocaleDateString("en-US", {
-        month: "numeric",
-        day: "numeric",
-        year: "numeric",
-        hour: "numeric",
-        minute: "numeric",
-        second: "numeric"
-      }),
-    {
-      header: "Creation Date",
-      sortDescFirst: true,
-      enableSorting: true,
-      enableHiding: true
-    }
-  ),
-  columnHelper.accessor(
-    row =>
-      new Date(row.updatedAt).toLocaleDateString("en-US", {
-        month: "numeric",
-        day: "numeric",
-        year: "numeric",
-        hour: "numeric",
-        minute: "numeric",
-        second: "numeric"
-      }),
-    {
-      id: "updatedAt",
-      header: () => {
-        return (
-          <span className="flex flex-row items-center gap-2">
-            Update Date
-            <ArrowDown10 />
-          </span>
-        );
-      },
-      sortDescFirst: true,
-      enableSorting: true,
-      enableHiding: true
-    }
-  )
-];
+  columnHelper.accessor(row => formatDateTime(row.createdAt), {
+    header: "Creation Date",
+    sortDescFirst: true,
+    enableSorting: true,
+    enableHiding: true
+  }),
+  columnHelper.accessor(row => formatDateTime(row.updatedAt), {
+    id: "updatedAt",
+    header: () => {
+      return (
+        <span className="flex flex-row items-center gap-2">
+          Update Date
+          <ArrowDown10 />
+        </span>
+      );
+    },
+    sortDescFirst: true,
+    enableSorting: true,
+    enableHiding: true
+  })
+] as ColumnDef<WalletGroupTableRow>[];
 
 export function WalletGroupsTable() {
   const [sorting, setSorting] = useState<SortingState>([
@@ -176,9 +143,34 @@ export function WalletGroupsTable() {
   });
   const [rowSelection, setRowSelection] = useState({});
 
-  const blockchainFilter = useBlockchainFilter();
-  const { data } = useSuspenseQuery(
-    getWalletGroupsTableOptions(blockchainFilter)
+  // const blockchainFilter = useBlockchainFilter();
+  const trpc = useTRPCTanstackQuery();
+
+  const { data } = useSuspenseQuery<WalletGroupTableRow[]>(
+    trpc.walletGroup.findMany.queryOptions(
+      {
+        where: { deletedAt: null },
+        include: {
+          wallets: {
+            select: { id: true }
+          },
+          user: {
+            select: { id: true, displayUsername: true }
+          }
+        }
+      },
+      {
+        select: (data: any) => {
+          return !Array.isArray(data?.json)
+            ? data
+            : data.json.map((walletGroup: any) => ({
+                ...walletGroup,
+                displayUserName: walletGroup.user.displayUsername,
+                numberOfWallets: walletGroup.wallets.length
+              }));
+        }
+      }
+    )
   );
 
   const table = useReactTable({

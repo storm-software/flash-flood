@@ -15,12 +15,13 @@
 
  ------------------------------------------------------------------- */
 
-import { Providers } from "@/contexts/Providers";
 import type { Metadata, Viewport } from "next";
 import { Manrope } from "next/font/google";
+import React from "react";
 import { Footer } from "./footer";
 import "./globals.css";
 import { NavigationHeader } from "./navigation-header";
+import { Providers } from "./providers";
 
 export const metadata: Metadata = {
   title: "pump.dump",

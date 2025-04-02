@@ -1,6 +1,6 @@
 /* -------------------------------------------------------------------
 
-                 ⚡ Storm Software - Pump Dot Dump
+                ⚡ Storm Software - Pump Dot Dump
 
  This code was released as part of the Pump Dot Dump project. Pump Dot Dump
  is maintained by Storm Software under the Apache-2.0 License, and is
@@ -39,7 +39,7 @@ export default function Error({
     <div className="flex min-h-[75dvh] items-center justify-center">
       <div className="max-w-2xl space-y-8 p-4 text-center">
         <div className="flex justify-center">
-          <TriangleAlert className="text-destructive-foreground size-32" />
+          <TriangleAlert className="size-50 text-red-800 dark:text-red-500" />
         </div>
         <h2 className="text-foreground text-4xl font-bold tracking-tight">
           It looks like something went wrong

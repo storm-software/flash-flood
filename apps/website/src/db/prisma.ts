@@ -15,23 +15,16 @@
 
  ------------------------------------------------------------------- */
 
-"use client";
+import { PrismaClient } from "@prisma/client/edge";
+import { withAccelerate } from "@prisma/extension-accelerate";
 
-import { ThemeProvider as NextThemesProvider } from "next-themes";
-import * as React from "react";
+const _prisma = new PrismaClient().$extends(withAccelerate());
 
-export function ThemeProvider({
-  children,
-  ...props
-}: React.ComponentProps<typeof NextThemesProvider>) {
-  return (
-    <NextThemesProvider
-      attribute="class"
-      defaultTheme="dark"
-      enableSystem
-      disableTransitionOnChange
-      {...props}>
-      {children}
-    </NextThemesProvider>
-  );
+// eslint-disable-next-line no-restricted-globals
+const globalForPrisma = global as unknown as { prisma: typeof _prisma };
+
+if (process.env.NODE_ENV !== "production") {
+  globalForPrisma.prisma = _prisma;
 }
+
+export const prisma = _prisma;

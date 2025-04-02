@@ -1,3 +1,20 @@
+/* -------------------------------------------------------------------
+
+                ⚡ Storm Software - Pump Dot Dump
+
+ This code was released as part of the Pump Dot Dump project. Pump Dot Dump
+ is maintained by Storm Software under the Apache-2.0 License, and is
+ free for commercial and private use. For more information, please visit
+ our licensing page.
+
+ Website:         https://stormsoftware.com
+ Repository:      https://github.com/storm-software/pump-dot-dump
+ Documentation:   https://stormsoftware.com/projects/pump-dot-dump/docs
+ Contact:         https://stormsoftware.com/contact
+ License:         https://stormsoftware.com/projects/pump-dot-dump/license
+
+ ------------------------------------------------------------------- */
+
 import { Slot } from "@radix-ui/react-slot";
 import { ChevronRight, MoreHorizontal } from "lucide-react";
 import * as React from "react";
@@ -13,7 +30,7 @@ function BreadcrumbList({ className, ...props }: React.ComponentProps<"ol">) {
     <ol
       data-slot="breadcrumb-list"
       className={cn(
-        "text-muted-foreground flex flex-wrap items-center gap-1.5 text-sm break-words sm:gap-2.5",
+        "text-muted-foreground flex flex-wrap items-center gap-1.5 break-words text-sm sm:gap-2.5",
         className
       )}
       {...props}

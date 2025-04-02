@@ -1,6 +1,6 @@
 /* -------------------------------------------------------------------
 
-                 ⚡ Storm Software - Pump Dot Dump
+                ⚡ Storm Software - Pump Dot Dump
 
  This code was released as part of the Pump Dot Dump project. Pump Dot Dump
  is maintained by Storm Software under the Apache-2.0 License, and is
@@ -77,63 +77,58 @@ export default async function Page({
     notFound();
   }
 
+  const publicKey = `${walletGroup.wallets[0]?.publicKey.slice(0, 10)}...${walletGroup.wallets[0]?.publicKey.slice(-8)}`;
+
   return (
     <div className="flex w-full flex-col gap-4">
-      <div className="flex w-full flex-row gap-4">
-        <div className="flex w-full flex-col gap-4">
-          <Breadcrumb>
-            <BreadcrumbList>
-              <BreadcrumbItem>
-                <BreadcrumbLink href="/wallet-groups">
-                  Wallet Groups
-                </BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator />
-              <BreadcrumbItem>
-                <BreadcrumbLink href={`/wallet-groups/${walletGroup.id}`}>
-                  {walletGroup.name}
-                </BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator />
-              <BreadcrumbItem>
-                <BreadcrumbPage>
-                  {walletGroup.wallets[0].publicKey}
-                </BreadcrumbPage>
-              </BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
-          <div className="flex flex-row items-center gap-2">
-            {walletGroup.type === "ethereum" ? (
-              <EthereumLogo className="size-12" />
-            ) : (
-              <SolanaLogo className="size-12" />
-            )}
-            <div className="gap-0.25 flex flex-col justify-start text-start">
-              <h3 className="text-foreground text-3xl font-bold">
-                Wallet - {walletGroup.wallets[0].publicKey.slice(0, 12)}...
-                {walletGroup.wallets[0].publicKey.slice(-10)}
-              </h3>
-              <p className="text-muted-foreground">
-                {walletGroup.wallets[0].createdAt.toISOString() ===
-                walletGroup.wallets[0].updatedAt.toISOString()
-                  ? "Created by"
-                  : "Updated by"}{" "}
-                {walletGroup.wallets[0].user.displayUsername} on{" "}
-                {new Date(walletGroup.wallets[0].updatedAt).toLocaleDateString(
-                  "en-US",
-                  {
-                    month: "numeric",
-                    day: "numeric",
-                    year: "numeric",
-                    hour: "numeric",
-                    minute: "numeric",
-                    second: "numeric"
-                  }
-                )}
-              </p>
-            </div>
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/wallet-groups">Wallet Groups</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbLink href={`/wallet-groups/${walletGroup.id}`}>
+              {walletGroup.name}
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>{publicKey}</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+
+      <div className="flex w-full flex-col gap-6 sm:flex-row sm:justify-between">
+        <div className="flex flex-row items-center gap-2">
+          {walletGroup.type === "ethereum" ? (
+            <EthereumLogo className="size-12" />
+          ) : (
+            <SolanaLogo className="size-12" />
+          )}
+          <div className="gap-0.25 flex flex-col justify-start text-start">
+            <h3 className="text-foreground text-3xl font-bold">{publicKey}</h3>
+            <p className="text-muted-foreground">
+              {walletGroup.wallets[0].createdAt.toISOString() ===
+              walletGroup.wallets[0].updatedAt.toISOString()
+                ? "Created by"
+                : "Updated by"}{" "}
+              {walletGroup.wallets[0].user.displayUsername} on{" "}
+              {new Date(walletGroup.wallets[0].updatedAt).toLocaleDateString(
+                "en-US",
+                {
+                  month: "numeric",
+                  day: "numeric",
+                  year: "numeric",
+                  hour: "numeric",
+                  minute: "numeric",
+                  second: "numeric"
+                }
+              )}
+            </p>
           </div>
         </div>
+
         <div className="flex flex-row items-center gap-4 sm:items-start">
           <Button asChild variant="secondary">
             <Link

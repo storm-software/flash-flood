@@ -1,6 +1,6 @@
 /* -------------------------------------------------------------------
 
-                 ⚡ Storm Software - Pump Dot Dump
+                ⚡ Storm Software - Pump Dot Dump
 
  This code was released as part of the Pump Dot Dump project. Pump Dot Dump
  is maintained by Storm Software under the Apache-2.0 License, and is
@@ -15,16 +15,21 @@
 
  ------------------------------------------------------------------- */
 
-import { PrismaClient } from "@prisma/client/edge";
-import { withAccelerate } from "@prisma/extension-accelerate";
+import { auth } from "@/auth/server";
+import { prisma } from "@/db/prisma";
+import type { FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch";
+import { headers } from "next/headers";
 
-const _prisma = new PrismaClient().$extends(withAccelerate());
+export async function createContext(opts?: FetchCreateContextFnOptions) {
+  const session = await auth.api.getSession({
+    headers: await headers()
+  });
 
-// eslint-disable-next-line no-restricted-globals
-const globalForPrisma = global as unknown as { prisma: typeof _prisma };
-
-if (process.env.NODE_ENV !== "production") {
-  globalForPrisma.prisma = _prisma;
+  return {
+    session: session!,
+    prisma,
+    headers: opts && Object.fromEntries(opts.req.headers)
+  };
 }
 
-export const prisma = _prisma;
+export type Context = Awaited<ReturnType<typeof createContext>>;

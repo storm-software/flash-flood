@@ -15,22 +15,19 @@
 
  ------------------------------------------------------------------- */
 
-"use client";
+import { appRouter } from "@/trpc/__generated__/routers";
+import { createContext } from "@/trpc/context";
+import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
 
-import { Toaster } from "@/components/sonner";
-import { QueryClientProvider } from "@/contexts/QueryClientProvider";
-import { ThemeProvider } from "@/contexts/ThemeProvider";
-import type * as React from "react";
+// Add back once NextAuth v5 is released
+// export const runtime = 'edge';
 
-export function Providers({ children }: { children: React.ReactNode }) {
-  return (
-    <QueryClientProvider>
-      <ThemeProvider>
-        {children}
+const handler = async (req: Request) =>
+  fetchRequestHandler({
+    endpoint: "/api/v1/trpc",
+    req,
+    router: appRouter,
+    createContext
+  });
 
-        <Toaster className="dark:hidden" />
-        <Toaster theme="dark" className="hidden dark:block" />
-      </ThemeProvider>
-    </QueryClientProvider>
-  );
-}
+export { handler as GET, handler as POST };

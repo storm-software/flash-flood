@@ -15,12 +15,4 @@
 
  ------------------------------------------------------------------- */
 
-import { getBaseUrl } from "@/query/get-base-url";
-import { adminClient, usernameClient } from "better-auth/client/plugins";
-import { createAuthClient } from "better-auth/react";
-
-export const authClient = createAuthClient({
-  baseURL: getBaseUrl(),
-  basePath: "/api/v1/auth",
-  plugins: [usernameClient(), adminClient()]
-});
+export { experimental_revalidateEndpoint as POST } from "@trpc/next/app-dir/server";

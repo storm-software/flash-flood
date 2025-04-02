@@ -15,26 +15,20 @@
 
  ------------------------------------------------------------------- */
 
-"use client";
+/* eslint-disable camelcase */
 
-import { getQueryClient } from "@/query/get-query-client";
-import { QueryClientProvider as ReactQueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import type * as React from "react";
+import { protectedProcedure } from "@/trpc/__generated__/trpc";
+import { experimental_nextAppDirCaller } from "@trpc/server/adapters/next-app-dir";
+import { createContext } from "./context";
 
-export function QueryClientProvider({
-  children
-}: {
-  children: React.ReactNode;
-}) {
-  const queryClient = getQueryClient();
+export const nextProc = protectedProcedure.experimental_caller(
+  experimental_nextAppDirCaller({
+    normalizeFormData: true,
+    createContext
+  })
+);
 
-  return (
-    <ReactQueryClientProvider client={queryClient}>
-      {children}
-      {process.env.NEXT_PUBLIC_VERCEL_ENV === "development" && (
-        <ReactQueryDevtools />
-      )}
-    </ReactQueryClientProvider>
-  );
-}
+export {
+  experimental_notFound as notFound,
+  experimental_redirect as redirect
+} from "@trpc/server/adapters/next-app-dir";
