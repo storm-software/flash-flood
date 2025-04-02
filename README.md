@@ -40,7 +40,6 @@ keeping the codebase maintainable.
 <b>Be sure to ⭐ this repository on GitHub so you can keep up to date on any daily progress!</b>
 </div>
 
-
 <!-- START doctoc -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 ## Table of Contents
@@ -61,7 +60,7 @@ keeping the codebase maintainable.
   - [Running End-to-End Tests](#running-end-to-end-tests)
   - [Understand your workspace](#understand-your-workspace)
 - [☁ Nx Cloud](#-nx-cloud)
-  - [Distributed Computation Caching \& Distributed Task Execution](#distributed-computation-caching--distributed-task-execution)
+  - [Distributed Computation Caching & Distributed Task Execution](#distributed-computation-caching--distributed-task-execution)
 - [Roadmap](#roadmap)
 - [Contributing](#contributing)
 - [Support](#support)
@@ -75,7 +74,6 @@ keeping the codebase maintainable.
 # Quick Features
 
 This section contains a quick overview of the features and functionality of the repository.
-
 
 ## Visual Studio Code Extension
 
