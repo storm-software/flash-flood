@@ -2,6 +2,13 @@
 
 # Changelog for Pump Dot Dump - Website
 
+## [0.1.1](https://github.com/storm-software/pump-dot-dump/releases/tag/website%400.1.1) (2025-04-02)
+
+### Bug Fixes
+
+- **website:** Resolve issue with invalid URL in CSP
+  ([75ad647](https://github.com/storm-software/pump-dot-dump/commit/75ad647))
+
 ## [0.1.0](https://github.com/storm-software/pump-dot-dump/releases/tag/website%400.1.0) (2025-04-02)
 
 ### Features
