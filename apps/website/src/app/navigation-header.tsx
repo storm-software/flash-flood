@@ -1,17 +1,17 @@
 /* -------------------------------------------------------------------
 
-                ⚡ Storm Software - Pump Dot Dump
+                  ⚡ Storm Software - Flash Flood
 
- This code was released as part of the Pump Dot Dump project. Pump Dot Dump
+ This code was released as part of the Flash Flood project. Flash Flood
  is maintained by Storm Software under the Apache-2.0 License, and is
  free for commercial and private use. For more information, please visit
  our licensing page.
 
  Website:         https://stormsoftware.com
- Repository:      https://github.com/storm-software/pump-dot-dump
- Documentation:   https://stormsoftware.com/projects/pump-dot-dump/docs
+ Repository:      https://github.com/storm-software/flash-flood
+ Documentation:   https://stormsoftware.com/projects/flash-flood/docs
  Contact:         https://stormsoftware.com/contact
- License:         https://stormsoftware.com/projects/pump-dot-dump/license
+ License:         https://stormsoftware.com/projects/flash-flood/license
 
  ------------------------------------------------------------------- */
 
@@ -30,7 +30,7 @@ import {
 } from "@/ui/components/ui/dropdown-menu";
 import { Skeleton } from "@/ui/components/ui/skeleton";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { CircleIcon, Home, LogOut } from "lucide-react";
+import { Home, LogOut, Waves } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Suspense, useState } from "react";
@@ -108,9 +108,9 @@ export function NavigationHeader() {
     <nav className="sticky top-0 z-50 md:top-5">
       <Card className="bg-white-50/50 mx-auto flex w-full flex-row items-center justify-between rounded-none px-4 py-4 backdrop-blur-sm sm:px-6 md:max-w-7xl md:rounded-2xl lg:px-8 dark:bg-zinc-950/50">
         <Link href="/" className="flex items-center gap-2">
-          <CircleIcon className="text-white-500 h-6 w-6" />
-          <h1 className="text-white-500 leading-0 pb-1 text-2xl font-bold">
-            pump.dump
+          <Waves className="text-white-500 h-6 w-6" />
+          <h1 className="text-white-500 leading-0 text-2xl font-bold">
+            Flash Flood
           </h1>
         </Link>
         <div className="flex items-center space-x-4">

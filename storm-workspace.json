@@ -1,9 +1,9 @@
 {
   "$schema": "https://cdn.jsdelivr.net/npm/@storm-software/config/schemas/storm-workspace.schema.json",
   "extends": "@storm-software/config/presets/base.json",
-  "name": "pump-dot-dump",
-  "namespace": "pump-dot-dump",
-  "repository": "https://github.com/storm-software/pump-dot-dump",
+  "name": "flash-flood",
+  "namespace": "flash-flood",
+  "repository": "https://github.com/storm-software/flash-flood",
   "packageManager": "pnpm",
   "logLevel": "trace"
 }

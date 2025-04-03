@@ -1,18 +1,18 @@
 #!/usr/bin/env zx
 /* -------------------------------------------------------------------
 
-                ⚡ Storm Software - Pump Dot Dump
+                  ⚡ Storm Software - Flash Flood
 
- This code was released as part of the Pump Dot Dump project. Pump Dot Dump
+ This code was released as part of the Flash Flood project. Flash Flood
  is maintained by Storm Software under the Apache-2.0 License, and is
  free for commercial and private use. For more information, please visit
  our licensing page.
 
  Website:         https://stormsoftware.com
- Repository:      https://github.com/storm-software/pump-dot-dump
- Documentation:   https://stormsoftware.com/projects/pump-dot-dump/docs
+ Repository:      https://github.com/storm-software/flash-flood
+ Documentation:   https://stormsoftware.com/projects/flash-flood/docs
  Contact:         https://stormsoftware.com/contact
- License:         https://stormsoftware.com/projects/pump-dot-dump/license
+ License:         https://stormsoftware.com/projects/flash-flood/license
 
  ------------------------------------------------------------------- */
 
@@ -29,7 +29,7 @@ try {
   }
 
   let proc =
-    $`pnpm nx run-many --target=lint,format --all --exclude="@pump-dot-dump/monorepo" --parallel=5`.timeout(
+    $`pnpm nx run-many --target=format --all --exclude="@flash-flood/monorepo" --parallel=5`.timeout(
       `${30 * 60}s`
     );
   proc.stdout.on("data", data => {

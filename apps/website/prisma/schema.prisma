@@ -1,173 +1,173 @@
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "postgresql"
-    url      = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 generator auth {
-    provider       = "prisma-better-auth-generator"
-    output         = "../src/auth/__generated__"
-    debug          = true
-    withSoftDelete = true
+  provider       = "prisma-better-auth-generator"
+  output         = "../src/auth/__generated__"
+  debug          = true
+  withSoftDelete = true
 }
 
 generator trpc {
-    provider       = "prisma-trpc-generator"
-    output         = "../src/trpc/__generated__"
-    debug          = true
-    withZod        = true
-    withNext       = true
-    withMiddleware = "../src/trpc/middleware"
+  provider       = "prisma-trpc-generator"
+  output         = "../src/trpc/__generated__"
+  debug          = true
+  withZod        = true
+  withNext       = true
+  withMiddleware = "../src/trpc/middleware"
 }
 
 model User {
-    id              String        @id @default(uuid())
-    name            String
-    email           String        @unique
-    emailVerified   Boolean       @default(false)
-    image           String?
-    createdAt       DateTime      @default(now())
-    updatedAt       DateTime      @updatedAt
-    username        String        @unique
-    displayUsername String
-    role            String?
-    banned          Boolean?      @default(false)
-    banReason       String?
-    banExpires      DateTime?
-    sessions        Session[]
-    accounts        Account[]
-    walletGroups    WalletGroup[]
-    wallets         Wallet[]
-    transactions    Transaction[]
-    tokens          Token[]
+  id              String        @id @default(uuid())
+  name            String
+  email           String        @unique
+  emailVerified   Boolean       @default(false)
+  image           String?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  username        String        @unique
+  displayUsername String
+  role            String?
+  banned          Boolean?      @default(false)
+  banReason       String?
+  banExpires      DateTime?
+  sessions        Session[]
+  accounts        Account[]
+  walletGroups    WalletGroup[]
+  wallets         Wallet[]
+  transactions    Transaction[]
+  tokens          Token[]
 
-    @@map("user")
+  @@map("user")
 }
 
 model Session {
-    id             String   @id @default(uuid())
-    expiresAt      DateTime
-    token          String   @unique
-    createdAt      DateTime @default(now())
-    updatedAt      DateTime @updatedAt
-    ipAddress      String?
-    userAgent      String?
-    userId         String
-    user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-    impersonatedBy String?
+  id             String   @id @default(uuid())
+  expiresAt      DateTime
+  token          String   @unique
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  ipAddress      String?
+  userAgent      String?
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  impersonatedBy String?
 
-    @@map("session")
+  @@map("session")
 }
 
 model Account {
-    id                    String    @id @default(uuid())
-    accountId             String
-    providerId            String
-    userId                String
-    user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-    accessToken           String?
-    refreshToken          String?
-    idToken               String?
-    accessTokenExpiresAt  DateTime?
-    refreshTokenExpiresAt DateTime?
-    scope                 String?
-    password              String?
-    createdAt             DateTime  @default(now())
-    updatedAt             DateTime  @updatedAt
+  id                    String    @id @default(uuid())
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
 
-    @@unique([accountId, providerId])
-    @@map("account")
+  @@unique([accountId, providerId])
+  @@map("account")
 }
 
 model Verification {
-    id         String    @id @default(uuid())
-    identifier String
-    value      String
-    expiresAt  DateTime
-    createdAt  DateTime? @default(now())
-    updatedAt  DateTime? @updatedAt
+  id         String    @id @default(uuid())
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime? @default(now())
+  updatedAt  DateTime? @updatedAt
 
-    @@map("verification")
+  @@map("verification")
 }
 
 enum BlockchainType {
-    ethereum
-    solana
+  ethereum
+  solana
 }
 
 model WalletGroup {
-    id        String         @id @default(uuid())
-    name      String         @unique
-    type      BlockchainType @default(ethereum)
-    userId    String
-    user      User           @relation(fields: [userId], references: [id], onDelete: Cascade)
-    wallets   Wallet[]
-    createdAt DateTime       @default(now())
-    updatedAt DateTime       @updatedAt
-    deletedAt DateTime?
+  id        String         @id @default(uuid())
+  name      String         @unique
+  type      BlockchainType @default(ethereum)
+  userId    String
+  user      User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  wallets   Wallet[]
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+  deletedAt DateTime?
 
-    @@map("walletGroup")
+  @@map("walletGroup")
 }
 
 model Wallet {
-    id          String        @id @default(uuid())
-    groupId     String?
-    group       WalletGroup?  @relation(fields: [groupId], references: [id], onDelete: Cascade)
-    description String?
-    mnemonic    String?
-    address     String?
-    publicKey   String        @unique
-    privateKey  String        @unique
-    sent        Transaction[] @relation(name: "TransactionToSender")
-    received    Transaction[] @relation(name: "TransactionToReceiver")
-    userId      String
-    user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-    createdAt   DateTime      @default(now())
-    updatedAt   DateTime      @updatedAt
-    deletedAt   DateTime?
+  id          String        @id @default(uuid())
+  groupId     String?
+  group       WalletGroup?  @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  description String?
+  mnemonic    String?
+  address     String?
+  publicKey   String        @unique
+  privateKey  String        @unique
+  sent        Transaction[] @relation(name: "TransactionToSender")
+  received    Transaction[] @relation(name: "TransactionToReceiver")
+  userId      String
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  deletedAt   DateTime?
 
-    @@map("wallet")
+  @@map("wallet")
 }
 
 model Token {
-    id           String         @id @default(uuid())
-    name         String         @unique
-    symbol       String         @unique
-    description  String?
-    type         BlockchainType
-    address      String?
-    transactions Transaction[]
-    userId       String
-    user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
-    createdAt    DateTime       @default(now())
-    updatedAt    DateTime       @updatedAt
-    deletedAt    DateTime?
+  id           String         @id @default(uuid())
+  name         String         @unique
+  symbol       String         @unique
+  description  String?
+  type         BlockchainType
+  address      String?
+  transactions Transaction[]
+  userId       String
+  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  deletedAt    DateTime?
 
-    @@map("token")
+  @@map("token")
 }
 
 enum TransactionStatus {
-    submitted
-    pending
-    completed
+  submitted
+  pending
+  completed
 }
 
 model Transaction {
-    id         String            @id @default(uuid())
-    status     TransactionStatus @default(submitted)
-    amount     Decimal
-    senderId   String
-    sender     Wallet            @relation(name: "TransactionToSender", fields: [senderId], references: [id])
-    receiverId String
-    receiver   Wallet            @relation(name: "TransactionToReceiver", fields: [receiverId], references: [id])
-    tokenId    String
-    token      Token             @relation(fields: [tokenId], references: [id], onDelete: Cascade)
-    userId     String
-    user       User              @relation(fields: [userId], references: [id], onDelete: Cascade)
-    createdAt  DateTime          @default(now())
+  id         String            @id @default(uuid())
+  status     TransactionStatus @default(submitted)
+  amount     Decimal
+  senderId   String
+  sender     Wallet            @relation(name: "TransactionToSender", fields: [senderId], references: [id])
+  receiverId String
+  receiver   Wallet            @relation(name: "TransactionToReceiver", fields: [receiverId], references: [id])
+  tokenId    String
+  token      Token             @relation(fields: [tokenId], references: [id], onDelete: Cascade)
+  userId     String
+  user       User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt  DateTime          @default(now())
 
-    @@map("transaction")
+  @@map("transaction")
 }

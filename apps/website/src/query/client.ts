@@ -1,17 +1,17 @@
 /* -------------------------------------------------------------------
 
-                ⚡ Storm Software - Pump Dot Dump
+                ⚡ Storm Software - Flash Flood
 
- This code was released as part of the Pump Dot Dump project. Pump Dot Dump
+ This code was released as part of the Flash Flood project. Flash Flood
  is maintained by Storm Software under the Apache-2.0 License, and is
  free for commercial and private use. For more information, please visit
  our licensing page.
 
  Website:         https://stormsoftware.com
- Repository:      https://github.com/storm-software/pump-dot-dump
- Documentation:   https://stormsoftware.com/projects/pump-dot-dump/docs
+ Repository:      https://github.com/storm-software/flash-flood
+ Documentation:   https://stormsoftware.com/projects/flash-flood/docs
  Contact:         https://stormsoftware.com/contact
- License:         https://stormsoftware.com/projects/pump-dot-dump/license
+ License:         https://stormsoftware.com/projects/flash-flood/license
 
  ------------------------------------------------------------------- */
 
@@ -59,7 +59,7 @@ export function getQueryClient() {
             refetchOnReconnect: true,
             refetchOnWindowFocus: true,
             persister: experimental_createPersister({
-              prefix: "pump-dot-dump",
+              prefix: "flash-flood",
               storage: window.localStorage,
               maxAge: 1000 * 60 * 60 * 24 * 24,
               serialize: persistedQuery => {
@@ -80,7 +80,7 @@ export function getQueryClient() {
 
       broadcastQueryClient({
         queryClient: browserQueryClient,
-        broadcastChannel: "pump-dot-dump"
+        broadcastChannel: "flash-flood"
       });
     }
 

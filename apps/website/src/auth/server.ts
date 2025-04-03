@@ -1,17 +1,17 @@
 /* -------------------------------------------------------------------
 
-                ⚡ Storm Software - Pump Dot Dump
+                ⚡ Storm Software - Flash Flood
 
- This code was released as part of the Pump Dot Dump project. Pump Dot Dump
+ This code was released as part of the Flash Flood project. Flash Flood
  is maintained by Storm Software under the Apache-2.0 License, and is
  free for commercial and private use. For more information, please visit
  our licensing page.
 
  Website:         https://stormsoftware.com
- Repository:      https://github.com/storm-software/pump-dot-dump
- Documentation:   https://stormsoftware.com/projects/pump-dot-dump/docs
+ Repository:      https://github.com/storm-software/flash-flood
+ Documentation:   https://stormsoftware.com/projects/flash-flood/docs
  Contact:         https://stormsoftware.com/contact
- License:         https://stormsoftware.com/projects/pump-dot-dump/license
+ License:         https://stormsoftware.com/projects/flash-flood/license
 
  ------------------------------------------------------------------- */
 
@@ -24,7 +24,7 @@ import { admin, username } from "better-auth/plugins";
 import { ac, adminRole, guestRole, managerRole, userRole } from "./permissions";
 
 export const auth = betterAuth({
-  appName: "pump-dot-dump",
+  appName: "flash-flood",
   baseURL: getBaseUrl(),
   basePath: "/api/v1/auth",
   secret: process.env.BETTER_AUTH_SECRET,

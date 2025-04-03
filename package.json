@@ -1,9 +1,9 @@
 {
-  "name": "@pump-dot-dump/monorepo",
+  "name": "@flash-flood/monorepo",
   "version": "0.0.1",
   "type": "module",
-  "description": "💪 An experimental application for managing bulk blockchain operations.",
-  "repository": "storm-software/pump-dot-dump.git",
+  "description": "💧 An experimental application for managing bulk blockchain operations.",
+  "repository": "storm-software/flash-flood.git",
   "license": "Apache-2.0",
   "private": true,
   "packageManager": "pnpm@10.3.0",
@@ -24,7 +24,7 @@
     "help": "nx help",
     "install-csb": "corepack enable && pnpm install --no-frozen-lockfile",
     "lint": "pnpm exec zx tools/scripts/src/lint.mjs",
-    "local-registry": "nx local-registry @pump-dot-dump/monorepo",
+    "local-registry": "nx local-registry @flash-flood/monorepo",
     "nuke": "pnpm exec zx tools/scripts/src/nuke.mjs",
     "nx": "nx",
     "postinstall": "pnpm bootstrap",
@@ -105,7 +105,7 @@
     "defaultBranch": "main",
     "workspaceProtocol": "require"
   },
-  "namespace": "@pump-dot-dump",
+  "namespace": "@flash-flood",
   "nx": {
     "includedScripts": [
       "lint-knip",

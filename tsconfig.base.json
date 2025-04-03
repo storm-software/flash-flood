@@ -6,8 +6,8 @@
     "rootDir": ".",
     "baseUrl": ".",
     "paths": {
-      "@pump-dot-dump/tools-scripts": ["tools/scripts/src/index.ts"],
-      "@pump-dot-dump/tools-scripts/*": ["tools/scripts/src/*"]
+      "@flash-flood/tools-scripts": ["tools/scripts/src/index.ts"],
+      "@flash-flood/tools-scripts/*": ["tools/scripts/src/*"]
     }
   }
 }

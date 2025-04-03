@@ -1,22 +1,22 @@
 /* -------------------------------------------------------------------
 
-                ⚡ Storm Software - Pump Dot Dump
+                  ⚡ Storm Software - Flash Flood
 
- This code was released as part of the Pump Dot Dump project. Pump Dot Dump
+ This code was released as part of the Flash Flood project. Flash Flood
  is maintained by Storm Software under the Apache-2.0 License, and is
  free for commercial and private use. For more information, please visit
  our licensing page.
 
  Website:         https://stormsoftware.com
- Repository:      https://github.com/storm-software/pump-dot-dump
- Documentation:   https://stormsoftware.com/projects/pump-dot-dump/docs
+ Repository:      https://github.com/storm-software/flash-flood
+ Documentation:   https://stormsoftware.com/projects/flash-flood/docs
  Contact:         https://stormsoftware.com/contact
- License:         https://stormsoftware.com/projects/pump-dot-dump/license
+ License:         https://stormsoftware.com/projects/flash-flood/license
 
  ------------------------------------------------------------------- */
 
 import { Separator } from "@/ui/components/ui/separator";
-import { CircleIcon } from "lucide-react";
+import { Waves } from "lucide-react";
 import Link from "next/link";
 import { ThemeToggle } from "./theme-toggle";
 
@@ -28,9 +28,9 @@ export function Footer() {
           <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
             <div className="flex flex-col gap-4">
               <Link href="/" className="flex items-center gap-2">
-                <CircleIcon className="text-white-500 h-6 w-6" />
+                <Waves className="text-white-500 h-6 w-6" />
                 <h3 className="text-white-500 leading-0 pb-1 text-xl font-bold">
-                  pump.dump
+                  Flash Flood
                 </h3>
               </Link>
             </div>
@@ -94,7 +94,7 @@ export function Footer() {
           </div>
           <div className="border-border dark:border-border/15 text-muted-foreground mt-8 flex flex-col items-center justify-between gap-4 border-t pt-4 text-xs sm:flex-row">
             <div className="flex h-5 items-center space-x-2 text-sm">
-              <p>© 2025 pump.dump</p>
+              <p>© 2025 Storm Software</p>
               <Separator orientation="vertical" />
               <p>All rights reserved</p>
             </div>

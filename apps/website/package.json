@@ -1,11 +1,11 @@
 {
-  "name": "@pump-dot-dump/website",
+  "name": "@flash-flood/website",
   "version": "0.1.1",
   "type": "module",
-  "description": "The pump.dump website.",
+  "description": "The Flash Flood website.",
   "repository": {
     "type": "github",
-    "url": "https://github.com/storm-software/pump-dot-dump.git",
+    "url": "https://github.com/storm-software/flash-flood.git",
     "directory": "apps/website"
   },
   "private": true,

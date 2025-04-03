@@ -173,7 +173,7 @@ catalog:
   zod: ^3.24.2
   zx: ^8.3.2
 overrides:
-  "@pump-dot-dump/tools-scripts": "workspace:*"
+  "@flash-flood/tools-scripts": "workspace:*"
   cookie: ">=0.7.0"
   debug: ">=4.4.0"
   follow-redirects: ">=1.15.9"
