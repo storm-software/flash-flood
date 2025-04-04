@@ -1,22 +1,22 @@
--- CreateExtension
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+-- CreateEnum
+CREATE TYPE "BlockchainType" AS ENUM ('ethereum', 'solana');
 
 -- CreateEnum
-CREATE TYPE "WalletType" AS ENUM ('ethereum', 'solana');
+CREATE TYPE "TransactionStatus" AS ENUM ('submitted', 'pending', 'completed');
 
 -- CreateTable
 CREATE TABLE "user" (
-    "id" UUID NOT NULL DEFAULT uuid_generate_v4(),
+    "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
-    "emailVerified" BOOLEAN NOT NULL,
+    "emailVerified" BOOLEAN NOT NULL DEFAULT false,
     "image" TEXT,
-    "createdAt" TIMESTAMP(3) NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "username" TEXT NOT NULL,
     "displayUsername" TEXT NOT NULL,
     "role" TEXT,
-    "banned" BOOLEAN,
+    "banned" BOOLEAN DEFAULT false,
     "banReason" TEXT,
     "banExpires" TIMESTAMP(3),
 
@@ -25,14 +25,14 @@ CREATE TABLE "user" (
 
 -- CreateTable
 CREATE TABLE "session" (
-    "id" UUID NOT NULL DEFAULT uuid_generate_v4(),
+    "id" TEXT NOT NULL,
     "expiresAt" TIMESTAMP(3) NOT NULL,
     "token" TEXT NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "ipAddress" TEXT,
     "userAgent" TEXT,
-    "userId" UUID NOT NULL,
+    "userId" TEXT NOT NULL,
     "impersonatedBy" TEXT,
 
     CONSTRAINT "session_pkey" PRIMARY KEY ("id")
@@ -40,10 +40,10 @@ CREATE TABLE "session" (
 
 -- CreateTable
 CREATE TABLE "account" (
-    "id" UUID NOT NULL DEFAULT uuid_generate_v4(),
-    "accountId" UUID NOT NULL,
+    "id" TEXT NOT NULL,
+    "accountId" TEXT NOT NULL,
     "providerId" TEXT NOT NULL,
-    "userId" UUID NOT NULL,
+    "userId" TEXT NOT NULL,
     "accessToken" TEXT,
     "refreshToken" TEXT,
     "idToken" TEXT,
@@ -51,7 +51,7 @@ CREATE TABLE "account" (
     "refreshTokenExpiresAt" TIMESTAMP(3),
     "scope" TEXT,
     "password" TEXT,
-    "createdAt" TIMESTAMP(3) NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "account_pkey" PRIMARY KEY ("id")
@@ -59,11 +59,11 @@ CREATE TABLE "account" (
 
 -- CreateTable
 CREATE TABLE "verification" (
-    "id" UUID NOT NULL DEFAULT uuid_generate_v4(),
+    "id" TEXT NOT NULL,
     "identifier" TEXT NOT NULL,
     "value" TEXT NOT NULL,
     "expiresAt" TIMESTAMP(3) NOT NULL,
-    "createdAt" TIMESTAMP(3),
+    "createdAt" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3),
 
     CONSTRAINT "verification_pkey" PRIMARY KEY ("id")
@@ -71,12 +71,11 @@ CREATE TABLE "verification" (
 
 -- CreateTable
 CREATE TABLE "walletGroup" (
-    "id" UUID NOT NULL DEFAULT uuid_generate_v4(),
+    "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
-    "description" TEXT,
-    "type" "WalletType" NOT NULL,
-    "userId" UUID NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL,
+    "type" "BlockchainType" NOT NULL DEFAULT 'ethereum',
+    "userId" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "deletedAt" TIMESTAMP(3),
 
@@ -85,19 +84,49 @@ CREATE TABLE "walletGroup" (
 
 -- CreateTable
 CREATE TABLE "wallet" (
-    "id" UUID NOT NULL DEFAULT uuid_generate_v4(),
-    "groupId" UUID NOT NULL,
+    "id" TEXT NOT NULL,
+    "groupId" TEXT,
     "description" TEXT,
-    "userId" UUID NOT NULL,
     "mnemonic" TEXT,
     "address" TEXT,
     "publicKey" TEXT NOT NULL,
     "privateKey" TEXT NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL,
+    "userId" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "deletedAt" TIMESTAMP(3),
 
     CONSTRAINT "wallet_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "token" (
+    "id" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "symbol" TEXT NOT NULL,
+    "description" TEXT,
+    "type" "BlockchainType" NOT NULL,
+    "address" TEXT,
+    "userId" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "deletedAt" TIMESTAMP(3),
+
+    CONSTRAINT "token_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "transaction" (
+    "id" TEXT NOT NULL,
+    "status" "TransactionStatus" NOT NULL DEFAULT 'submitted',
+    "amount" DECIMAL(65,30) NOT NULL,
+    "senderId" TEXT NOT NULL,
+    "receiverId" TEXT NOT NULL,
+    "tokenId" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "transaction_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
@@ -113,13 +142,19 @@ CREATE UNIQUE INDEX "session_token_key" ON "session"("token");
 CREATE UNIQUE INDEX "account_accountId_providerId_key" ON "account"("accountId", "providerId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "walletGroup_name_userId_key" ON "walletGroup"("name", "userId");
+CREATE UNIQUE INDEX "walletGroup_name_key" ON "walletGroup"("name");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "wallet_publicKey_key" ON "wallet"("publicKey");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "wallet_privateKey_key" ON "wallet"("privateKey");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "wallet_publicKey_key" ON "wallet"("publicKey");
+CREATE UNIQUE INDEX "token_name_key" ON "token"("name");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "token_symbol_key" ON "token"("symbol");
 
 -- AddForeignKey
 ALTER TABLE "session" ADD CONSTRAINT "session_userId_fkey" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -135,3 +170,18 @@ ALTER TABLE "wallet" ADD CONSTRAINT "wallet_groupId_fkey" FOREIGN KEY ("groupId"
 
 -- AddForeignKey
 ALTER TABLE "wallet" ADD CONSTRAINT "wallet_userId_fkey" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "token" ADD CONSTRAINT "token_userId_fkey" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "transaction" ADD CONSTRAINT "transaction_senderId_fkey" FOREIGN KEY ("senderId") REFERENCES "wallet"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "transaction" ADD CONSTRAINT "transaction_receiverId_fkey" FOREIGN KEY ("receiverId") REFERENCES "wallet"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "transaction" ADD CONSTRAINT "transaction_tokenId_fkey" FOREIGN KEY ("tokenId") REFERENCES "token"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "transaction" ADD CONSTRAINT "transaction_userId_fkey" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE CASCADE;
