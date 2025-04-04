@@ -8,6 +8,8 @@ on:
       - canary
       - experimental
 
+permissions: {}
+
 jobs:
   greeting:
     runs-on: ubuntu-latest

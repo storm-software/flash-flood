@@ -12,6 +12,8 @@ on:
       - canary
       - experimental
 
+permissions: {}
+
 env:
   CI: true
   STORM_REPOSITORY: ${{ github.repositoryUrl }}

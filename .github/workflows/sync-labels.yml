@@ -16,6 +16,8 @@ env:
   NX_VERBOSE_LOGGING: true
   SKIP_ENV_VALIDATION: true
 
+permissions: {}
+
 jobs:
   labels:
     name: ♻️ Sync labels
