@@ -36,6 +36,7 @@
             pkgs.nodePackages.prettier
             pkgs.git
             pkgs.typos
+            pkgs.zizmor
             # pkgs.python3
           ];
         };
