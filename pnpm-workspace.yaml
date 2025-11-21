@@ -171,7 +171,7 @@ catalog:
   jiti: "^2.4.2"
   verdaccio: 5.33.0
   zod: ^3.24.2
-  zx: ^8.3.2
+  zx: ^8.8.5
 overrides:
   "@flash-flood/tools-scripts": "workspace:*"
   cookie: ">=0.7.0"
